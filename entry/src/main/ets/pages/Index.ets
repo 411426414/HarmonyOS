@@ -40,178 +40,7 @@ class dataList {
 @Entry
 @Component
 struct Index {
-  @State tramList: Array<Object> = [
-    {
-      "stationId": "77",
-      "stationName": "大吕路",
-      "status": "1",
-      "otherId": "78",
-      "lindId": "2",
-      "isFirstEnd": false,
-      "dataList": [{
-        "distance": "",
-        "downRunTime": "首06:30 末21:00",
-        "endStation": "城铁汤逊湖",
-        "isFirstEnd": false,
-        "lineId": "2",
-        "lineName": "L2",
-        "location": "114.486687,30.471962",
-        "minute": "预计16分钟",
-        "nextArriveTime": "预计30分钟",
-        "orderNum": "13",
-        "otherId": "78",
-        "startStation": "光谷植物园",
-        "stationId": "77",
-        "stationName": "大吕路",
-        "status": "1",
-        "ticketPrice": 2,
-        "twoLine": 1,
-        "upRunTime": "首06:30 末22:00",
-        "createTime": "1701415601254"
-      }],
-      "flag": true
-    },
-    {
-      "stationId": "19",
-      "stationName": "当代国际花园",
-      "status": "1",
-      "otherId": "20",
-      "lindId": "2",
-      "isFirstEnd": false,
-      "dataList": [{
-        "distance": "",
-        "downRunTime": "首06:30 末21:00",
-        "endStation": "城铁汤逊湖",
-        "isFirstEnd": false,
-        "lineId": "2",
-        "lineName": "L2",
-        "location": "114.412571,30.463855",
-        "minute": "预计1分钟",
-        "nextArriveTime": "预计6分钟",
-        "orderNum": "20",
-        "otherId": "20",
-        "startStation": "光谷植物园",
-        "stationId": "19",
-        "stationName": "当代国际花园",
-        "status": "1",
-        "ticketPrice": 2,
-        "twoLine": 2,
-        "upRunTime": "首06:30 末22:00",
-        "createTime": "1701415600033"
-      }, {
-        "distance": "",
-        "downRunTime": "首06:00 末22:12",
-        "endStation": "华中大",
-        "isFirstEnd": false,
-        "lineId": "1",
-        "lineName": "L1",
-        "location": "114.412571,30.463855",
-        "minute": "预计6分钟",
-        "nextArriveTime": "预计15分钟",
-        "orderNum": "7",
-        "otherId": "20",
-        "startStation": "佛祖岭",
-        "stationId": "19",
-        "stationName": "当代国际花园",
-        "status": "1",
-        "ticketPrice": 2,
-        "twoLine": 2,
-        "upRunTime": "首06:04 末21:30",
-        "createTime": "1701415600035"
-      }],
-      "flag": true
-    },
-    {
-      "stationId": "65",
-      "stationName": "武大园",
-      "status": "1",
-      "otherId": "66",
-      "lindId": "3",
-      "isFirstEnd": false,
-      "dataList": [{
-        "distance": "",
-        "downRunTime": "首06:00 末21:30",
-        "endStation": "华中大",
-        "isFirstEnd": false,
-        "lineId": "3",
-        "lineName": "L3",
-        "location": "114.402036,30.455526",
-        "minute": "已到站",
-        "nextArriveTime": "预计6分钟",
-        "orderNum": "4",
-        "otherId": "66",
-        "startStation": "城铁汤逊湖",
-        "stationId": "65",
-        "stationName": "武大园",
-        "status": "1",
-        "ticketPrice": 2,
-        "twoLine": 2,
-        "upRunTime": "首06:09 末22:05",
-        "createTime": "1701415600787"
-      }],
-      "flag": true
-    },
-    {
-      "stationId": "75",
-      "stationName": "奥风路",
-      "status": "1",
-      "otherId": "76",
-      "lindId": "2",
-      "isFirstEnd": false,
-      "dataList": [{
-        "distance": "",
-        "downRunTime": "首06:30 末21:00",
-        "endStation": "城铁汤逊湖",
-        "isFirstEnd": false,
-        "lineId": "2",
-        "lineName": "L2",
-        "location": "114.477158,30.471281",
-        "minute": "预计1分钟",
-        "nextArriveTime": "预计18分钟",
-        "orderNum": "14",
-        "otherId": "76",
-        "startStation": "光谷植物园",
-        "stationId": "75",
-        "stationName": "奥风路",
-        "status": "1",
-        "ticketPrice": 2,
-        "twoLine": 1,
-        "upRunTime": "首06:30 末22:00",
-        "createTime": "1701415601177"
-      }],
-      "flag": true
-    },
-    {
-      "stationId": "59",
-      "stationName": "城铁汤逊湖",
-      "status": "1",
-      "otherId": "60",
-      "lindId": "2",
-      "isFirstEnd": true,
-      "dataList": [{
-        "distance": "",
-        "downRunTime": "首06:30 末21:00",
-        "endStation": "城铁汤逊湖",
-        "isFirstEnd": true,
-        "lineId": "2",
-        "lineName": "L2",
-        "location": "114.386333,30.444559",
-        "minute": "预计6分钟",
-        "nextArriveTime": "预计14分钟",
-        "orderNum": "25",
-        "otherId": "60",
-        "startStation": "光谷植物园",
-        "stationId": "59",
-        "stationName": "城铁汤逊湖",
-        "status": "1",
-        "ticketPrice": 2,
-        "twoLine": 1,
-        "upRunTime": "首06:30 末22:00",
-        "createTime": "1701415600545"
-      }],
-      "flag": false
-    }
-  ]
+  @State tramList: Array<Object> = []
   @State message: string = 'Hello World!'
   private controller: TabsController = new TabsController()
 
@@ -224,6 +53,9 @@ struct Index {
     Column({ space: 8 }) {
       Row() {
         Text('列表').fontSize(20).fontWeight('bold')
+          .onClick(() => {
+            this.onRequest();
+          })
       }.width('100%').margin({ bottom: 20 })
 
       List({ space: 8 }) {
@@ -300,5 +132,13 @@ struct Index {
     .height('100%')
     .backgroundColor('#EFEFEF')
     .padding(20)
+  }
+
+  onRequest() {
+    let webSrc = 'https://whyouguidianche.siisoo.com//realBus/getLccStationList?longitude=114.3216781616211&latitude=30.37558937072754&status=1&userId=1233666'
+    httpGet(webSrc).then((res: http.HttpResponse) => {
+      this.tramList = JSON.parse(res['result'] + '')['data']
+      Logger.info('this.tramList', JSON.stringify(this.tramList))
+    });
   }
 }
