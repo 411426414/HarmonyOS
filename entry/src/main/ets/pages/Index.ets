@@ -49,6 +49,16 @@ struct Index {
     Text(text).fontSize(20).backgroundColor('#fff1f3f5').width('100%').padding(5)
   }
 
+  // 只有被@Entry装饰的组件才可以调用页面的生命周期
+  onPageShow() {
+    console.info('Index onPageShow');
+    this.onRequest()
+  }
+  // 只有被@Entry装饰的组件才可以调用页面的生命周期
+  onPageHide() {
+    console.info('Index onPageHide');
+  }
+
   build() {
     Column({ space: 8 }) {
       Row() {
@@ -62,7 +72,7 @@ struct Index {
         ForEach(this.tramList,
           (item: Tram) => {
             ListItem() {
-              Flex({ direction: FlexDirection.Column }) {
+              Flex({ direction: FlexDirection.Column}){
 
                 Row() {
                   Text(item.stationName).fontSize(20).fontWeight('bold')
@@ -138,7 +148,7 @@ struct Index {
     let webSrc = 'https://whyouguidianche.siisoo.com//realBus/getLccStationList?longitude=114.3216781616211&latitude=30.37558937072754&status=1&userId=1233666'
     httpGet(webSrc).then((res: http.HttpResponse) => {
       this.tramList = JSON.parse(res['result'] + '')['data']
-      Logger.info('this.tramList', JSON.stringify(this.tramList))
+      // Logger.info('this.tramList', JSON.stringify(this.tramList))
     });
   }
 }
