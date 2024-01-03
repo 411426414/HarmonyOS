@@ -14,7 +14,7 @@
  */
 
 import http from '@ohos.net.http';
-import CommonConstant from '../constant/CommonConstants';
+import CommonConstants from '../constants/CommonConstants';
 
 /**
  * Initiates an HTTP request to a given URL.
@@ -30,8 +30,8 @@ export default async function httpGet(url: string) {
   let options = {
     method: http.RequestMethod.GET,
     header: { 'Content-Type': 'application/json' },
-    readTimeout: CommonConstant.READ_TIMEOUT,
-    connectTimeout: CommonConstant.CONNECT_TIMEOUT
+    readTimeout: CommonConstants.READ_TIMEOUT,
+    connectTimeout: CommonConstants.CONNECT_TIMEOUT
   } as http.HttpRequestOptions;
   let result = await request.request(url, options);
   return result;
