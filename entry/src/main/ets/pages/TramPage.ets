@@ -6,6 +6,7 @@ import promptAction from '@ohos.promptAction';
 import Logger from '../common/utils/Logger';
 import router from '@ohos.router';
 import { getLccStationList, subscribeList4 } from '../api/tram'
+import common from '@ohos.app.ability.common';
 
 class Tram {
   key: string = util.generateRandomUUID(true);
@@ -37,6 +38,7 @@ class dataList {
     this.ticketPrice = ticketPrice;
   }
 }
+
 
 @Component
 export default struct TramPage {
@@ -168,29 +170,21 @@ export default struct TramPage {
     Text(text).fontSize(20).backgroundColor('#fff1f3f5').width('100%').padding(5)
   }
 
+  @State latitude: string = "30.481104"
+  @State longitude: string = "114.48482"
+
   build() {
     Column({ space: 8 }) {
       Row() {
         Text('列表').fontSize(20).fontWeight('bold')
-          .onClick(() => {
-            this.getLccStationListFun();
-          })
-        Text(' ')
-        Text(' ')
+          .onClick(() => {this.getLccStationListFun();})
         Text('我的关注').fontSize(20).fontWeight('bold')
-          .onClick(() => {
-            this.subscribeList4();
-          })
-        Text(' ')
-        Text(' ')
-        Text('登录').fontSize(20).fontWeight('bold')
-          .onClick(() => {
-            return router.push({
-              url: 'pages/User'
-            });
-          })
-        Text(' ')
-      }.width('100%').margin({ bottom: 20 })
+          .onClick(() => {this.subscribeList4();})
+        Text('跳转高德').fontSize(20).fontWeight('bold')
+          .onClick(() => {this.jumpGaode()})
+      }
+      .width('100%')
+      .justifyContent(FlexAlign.SpaceAround)
 
       List({ space: 8 }) {
         ForEach(this.tramList,
@@ -269,14 +263,23 @@ export default struct TramPage {
     .padding(20)
   }
 
-  // 只有被@Entry装饰的组件才可以调用页面的生命周期
+  // 只有被@ Entry装饰的组件才可以调用页面的生命周期
   onPageShow() {
     console.info('Index onPageShow');
     this.getLccStationListFun()
   }
-  // 只有被@Entry装饰的组件才可以调用页面的生命周期
+  // 只有被@ Entry装饰的组件才可以调用页面的生命周期
   onPageHide() {
     console.info('Index onPageHide');
+  }
+
+
+  jumpGaode() {
+    let context = getContext(this) as common.UIAbilityContext
+    context.startAbility({
+      uri: "androidamap://navi?sourceApplication=appname&lat=" + this.latitude + "&lon=" + this.longitude + "&dev=1",
+      action: "android.intent.action.VIEW"
+    })
   }
 
   getLccStationListFun() {
