@@ -5,6 +5,8 @@ import { userLogin } from '../api/user'
 import Logger from '../common/utils/Logger'
 import notification from '@ohos.notificationManager';
 import image from '@ohos.multimedia.image';
+import TextPlus from './components/TextPlus'
+import TextPro from './components/TextPro'
 
 //导入toast包
 import promptAction from '@ohos.promptAction'
@@ -109,6 +111,48 @@ struct UserPage {
           .onChange((value: string) => {
             this.user.password = value
           })
+
+        Image($r('app.media.avatar'))
+          .width(Constant.AVATAR_SIZE)
+          .height(Constant.AVATAR_SIZE)
+          .alignSelf(ItemAlign.Center)
+        Text('个人信息')
+          .fontColor(Constant.LOGIN_COLOR)
+          .fontSize(16)
+          .margin({ top: 10 })
+          .alignSelf(ItemAlign.Center)
+        TextPro({
+          inputImage: $r('app.media.nickname'),
+          hintText: '昵称'
+        })
+        TextPro({
+          inputImage: $r('app.media.ic_search'),
+          hintText: '昵称',
+        })
+        TextPro({
+          inputImage: $r('app.media.signature'),
+          hintText: '个性签名'
+        })
+        TextPlus({
+          textImage: $r('app.media.ic_search'),
+          title: '性别',
+          content: $msg,
+          onItemClick: () => {
+            TextPickerDialog.show({
+              range: this.sex,
+              onAccept: (value: TextPickerResult) => {
+                // 设置select为按下确定按钮时候的选中项index,这样当弹框在吃弹出时显示选中的还是上一次确定的选项
+                this.msg = value.value
+              },
+              onCancel: () => {
+                console.log('取消')
+              },
+              onChange: (value: TextPickerResult) => {
+                console.log('改变', value)
+              }
+            })
+          }
+        })
         Button('登录')
           .width(250)
           .margin({ top: 20 })
