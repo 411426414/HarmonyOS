@@ -9,7 +9,7 @@ import image from '@ohos.multimedia.image';
 //导入toast包
 import promptAction from '@ohos.promptAction'
 
-@Entry
+@Preview
 @Component
 struct UserPage {
   @State user: User = {
@@ -90,10 +90,11 @@ struct UserPage {
     Row() {
       Column() {
 
-        Image($r('app.media.img')).width(110).height(110).borderRadius(15)
-
-        // Text(this.user.username).fontSize(30).fontWeight(FontWeight.Bold)
-        // Text(this.user.password).fontSize(30).fontWeight(FontWeight.Bold)
+        Image($r('app.media.img'))
+          .width(110)
+          .height(110)
+          .margin({ bottom: 50 })
+          .borderRadius(15)
 
         // Divider()
         TextInput({ placeholder: "输入用户名", text: this.user.account })
@@ -108,7 +109,9 @@ struct UserPage {
           .onChange((value: string) => {
             this.user.password = value
           })
-        Button('登录').width(150).margin({ top: 20 })
+        Button('登录')
+          .width(250)
+          .margin({ top: 20 })
           .onClick(() => {
             // console.log("发送成功")
             userLogin(this.user)
