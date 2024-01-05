@@ -1,6 +1,7 @@
 import CommonConstants from '../common/constants/CommonConstants';
 import StyleConstants from '../common/constants/StyleConstants';
 import HomePage from './HomePage';
+import ZixunPage from './ZixunPage/ZixunPage';
 import TramPage from './TramPage';
 import MinePage from './MinePage';
 import Logger from '../common/utils/Logger';
@@ -14,7 +15,7 @@ import Logger from '../common/utils/Logger';
 @Component
 struct Index {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
-  @State currentIndex: number = CommonConstants.HOME_TAB_INDEX;
+  @State currentIndex: number = CommonConstants.ZIXUN_TAB_INDEX;
 
   // aboutToDisappear() {
   //   MultipleDevicesUtils.unregister();
@@ -26,10 +27,17 @@ struct Index {
       BarPosition.Start : BarPosition.End,
       index: this.currentIndex
     }) {
+
       TabContent() {
         HomePage()
       }
       .tabBar(this.TabBuilder(CommonConstants.HOME_TITLE, CommonConstants.HOME_TAB_INDEX,
+        $r('app.media.ic_home_selected'), $r('app.media.ic_home_normal')))
+
+      TabContent() {
+        ZixunPage()
+      }
+      .tabBar(this.TabBuilder(CommonConstants.ZIXUN_TITLE, CommonConstants.ZIXUN_TAB_INDEX,
         $r('app.media.ic_home_selected'), $r('app.media.ic_home_normal')))
 
       TabContent() {

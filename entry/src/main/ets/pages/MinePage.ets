@@ -75,7 +75,7 @@ export default struct MinePage {
   }
 
   /**
-   * Log out
+   * 退出登录
    */
   logout() {
     Logger.info(CommonConstants.TAG_MINE_PAGE, 'Logout');
@@ -83,6 +83,7 @@ export default struct MinePage {
   }
 }
 
+// 我的顶部个人信息
 @Preview
 @Component
 struct MineTitleView {
@@ -114,6 +115,7 @@ struct MineTitleView {
   }
 }
 
+// 我的菜单列表
 @Preview
 @Component
 struct MineListView {

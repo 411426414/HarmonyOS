@@ -46,3 +46,12 @@ struct ListExample {
     }.width('100%').height('100%').backgroundColor(0xDCDCDC).padding({ top: 5 })
   }
 }
+
+@Component
+struct ImageItemView {
+  build() {
+    Stack({ alignContent: Alignment.TopStart }) {
+
+    }
+  }
+}

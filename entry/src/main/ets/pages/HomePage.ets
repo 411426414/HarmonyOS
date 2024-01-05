@@ -5,7 +5,7 @@ import CommonUtils from '../common/utils/CommonUtils';
 import ItemData from '../viewmodel/ItemData';
 
 @Component
-export default struct MinePage {
+export default struct HomePage {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
 
   build() {
@@ -13,7 +13,7 @@ export default struct MinePage {
       Column() {
         Text($r('app.string.main_page'))
           .fontWeight(FontWeight.Medium)
-          .fontSize($r'app.float.common_text_size'))
+          .fontSize($r('app.float.common_text_size'))
           .margin({
             left: this.currentDeviceSize === CommonConstants.LG ? $r('app.float.common_margin_larger') : $r('app.float.common_margin'),
             top: $r('app.float.common_margin')
