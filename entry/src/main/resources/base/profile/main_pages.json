@@ -1,6 +1,5 @@
 {
   "src": [
-    "pages/TramPage",
-    "pages/User"
+    "pages/Index"
   ]
 }

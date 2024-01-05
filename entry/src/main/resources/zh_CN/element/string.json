@@ -81,6 +81,10 @@
       "value": "首页"
     },
     {
+      "name": "zixun_page",
+      "value": "咨询"
+    },
+    {
       "name": "mine_page",
       "value": "我的"
     },

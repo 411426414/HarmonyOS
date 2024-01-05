@@ -1,6 +1,10 @@
 {
   "float": [
     {
+      "name": "common_border_radius",
+      "value": "15vp"
+    },
+    {
       "name": "logo_image_size",
       "value": "78vp"
     },
@@ -31,6 +35,10 @@
     {
       "name": "more_margin_bottom",
       "value": "12vp"
+    },
+    {
+      "name": "common_margin_bottom",
+      "value": "15vp"
     },
     {
       "name": "login_input_height",

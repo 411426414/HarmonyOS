@@ -1,6 +1,10 @@
 {
   "string": [
     {
+      "name": "search_placeholder",
+      "value": "搜索"
+    },
+    {
       "name": "module_desc",
       "value": "module description"
     },
@@ -79,6 +83,10 @@
     {
       "name": "main_page",
       "value": "Home"
+    },
+    {
+      "name": "zixun_page",
+      "value": "ZinXun"
     },
     {
       "name": "mine_page",
