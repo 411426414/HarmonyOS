@@ -14,7 +14,7 @@
  */
 
 import router from '@ohos.router';
-import libCheckNapi from 'libentry.so';
+// import libCheckNapi from 'libentry.so';
 import promptAction from '@ohos.promptAction';
 import CommonConstants from '../constants/CommonConstants';
 import Logger from './Logger';
@@ -45,15 +45,15 @@ export class CommonUtils {
    * @param {string} account account
    * @param {string} password password
    */
-  public loginNative(account: string, password: string): void {
-    let check: string = this.loginCheckNative(account, password);
-    if (CommonConstants.LOGIN_TEXT !== check) {
-      Logger.error(CommonConstants.TAG_COMMON_UTILS, 'login account or password is empty');
-      this.showToastContent(check);
-      return;
-    }
-    this.routerPage(CommonConstants.MAIN_PAGE_URL);
-  }
+  // public loginNative(account: string, password: string): void {
+  //   let check: string = this.loginCheckNative(account, password);
+  //   if (CommonConstants.LOGIN_TEXT !== check) {
+  //     Logger.error(CommonConstants.TAG_COMMON_UTILS, 'login account or password is empty');
+  //     this.showToastContent(check);
+  //     return;
+  //   }
+  //   this.routerPage(CommonConstants.MAIN_PAGE_URL);
+  // }
 
   /**
    * CHeck account and password is it empty.
@@ -81,10 +81,10 @@ export class CommonUtils {
    * @param {string} password password
    * @return {string} return  check result
    */
-  private loginCheckNative(account: string, password: string): string {
-    let check: string = libCheckNapi.nativeCheck(account, password);
-    return check;
-  }
+  // private loginCheckNative(account: string, password: string): string {
+  //   let check: string = libCheckNapi.nativeCheck(account, password);
+  //   return check;
+  // }
 
   /**
    * Router page

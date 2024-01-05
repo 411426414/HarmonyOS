@@ -71,6 +71,11 @@ export default class CommonConstants {
    * 主页的标题文本
    */
   static readonly HOME_TITLE: string = '首页';
+  /**
+   * Title text of the home page.
+   * 咨询页的标题文本
+   */
+  static readonly ZIXUN_TITLE: string = '咨询';
 
   /**
    * Title text of the setting page.
@@ -89,24 +94,29 @@ export default class CommonConstants {
    * 主页标签索引
    */
   static readonly HOME_TAB_INDEX: number = 0;
+  /**
+   * Home tab index.
+   * 咨询页标签索引
+   */
+  static readonly ZIXUN_TAB_INDEX: number = 1;
 
   /**
    * Mine tab index.
    * 有轨电车页标签索引
    */
-  static readonly TRAM_TAB_INDEX: number = 1;
+  static readonly TRAM_TAB_INDEX: number = 2;
 
   /**
    * Mine tab index.
    * 我的页标签索引
    */
-  static readonly MINE_TAB_INDEX: number = 2;
+  static readonly MINE_TAB_INDEX: number = 3;
 
   /**
    * Swiper cache count of the number 3.
    * Swiper刷缓存计数的数字3
    */
-  static readonly SWIPER_CACHE_COUNT: number = 3;
+  static readonly SWIPER_CACHE_COUNT: number = 4;
 
   /**
    * Main page url.
