@@ -15,7 +15,7 @@ import Logger from '../common/utils/Logger';
 @Component
 struct Index {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
-  @State currentIndex: number = CommonConstants.ZIXUN_TAB_INDEX;
+  @State currentIndex: number = CommonConstants.TRAM_TAB_INDEX;
 
   // aboutToDisappear() {
   //   MultipleDevicesUtils.unregister();
@@ -27,7 +27,6 @@ struct Index {
       BarPosition.Start : BarPosition.End,
       index: this.currentIndex
     }) {
-
       TabContent() {
         HomePage()
       }
@@ -39,18 +38,18 @@ struct Index {
       }
       .tabBar(this.TabBuilder(CommonConstants.ZIXUN_TITLE, CommonConstants.ZIXUN_TAB_INDEX,
         $r('app.media.ic_home_selected'), $r('app.media.ic_home_normal')))
-
       TabContent() {
         TramPage()
       }
       .tabBar(this.TabBuilder(CommonConstants.TRAM_TITLE, CommonConstants.TRAM_TAB_INDEX,
         $r('app.media.ic_mine_selected'), $r('app.media.ic_mine_normal')))
 
-      TabContent() {
-        MinePage()
-      }
-      .tabBar(this.TabBuilder(CommonConstants.MINE_TITLE, CommonConstants.MINE_TAB_INDEX,
-        $r('app.media.ic_mine_selected'), $r('app.media.ic_mine_normal')))
+
+      // TabContent() {
+      //   MinePage()
+      // }
+      // .tabBar(this.TabBuilder(CommonConstants.MINE_TITLE, CommonConstants.MINE_TAB_INDEX,
+      //   $r('app.media.ic_mine_selected'), $r('app.media.ic_mine_normal')))
     }
     .barWidth(this.currentDeviceSize === CommonConstants.LG ?
     StyleConstants.BAR_WIDTH_LG : StyleConstants.FULL_PARENT)
