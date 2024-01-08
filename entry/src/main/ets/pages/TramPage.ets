@@ -1,47 +1,167 @@
 import util from '@ohos.util';
+import data from '@ohos.telephony.data';
 import http from '@ohos.net.http';
 import httpGet from '../common/utils/HttpUtil';
 import promptAction from '@ohos.promptAction';
 import Logger from '../common/utils/Logger';
+import router from '@ohos.router';
 import { getLccStationList, subscribeList4 } from '../api/tram'
 import common from '@ohos.app.ability.common';
+import hilog from '@ohos.hilog';
 
 class Tram {
   key: string = util.generateRandomUUID(true);
+  stationId: string;
   stationName: string;
-  dataList: Array<dataList>;
+  status: string;
+  otherId: string;
+  lineId: string;
+  isFirstEnd: boolean;
+  dataList: Array<DataList>;
+  flag: boolean;
 
-  constructor(stationName: string, dataList: Array<dataList>) {
+  constructor(stationId: string, stationName: string, status: string, otherId: string, lineId: string, isFirstEnd: boolean, dataList: Array<DataList>, flag: boolean,) {
+    this.stationId = stationId;
     this.stationName = stationName;
+    this.status = status;
+    this.otherId = otherId;
+    this.lineId = lineId;
+    this.isFirstEnd = isFirstEnd;
+    this.flag = flag;
     this.dataList = dataList;
   }
 }
 
-class dataList {
-  lindId: number;
-  lineName: string;
-  endStation: string;
-  minute: string;
-  nextArriveTime: string;
-  upRunTime: string;
-  ticketPrice: string;
+class DataList {
+  distance: string
+  downRunTime: string
+  endStation: string
+  isFirstEnd: boolean
+  lineId: string
+  lineName: string
+  location: string
+  minute: string
+  nextArriveTime: string
+  orderNum: string
+  otherId: string
+  startStation: string
+  stationId: string
+  stationName: string
+  status: string
+  ticketPrice: number
+  twoLine: number
+  upRunTime: string
+  createTime: string
 
-  constructor(lindId: number, lineName: string, endStation: string, minute: string, nextArriveTime: string, upRunTime: string, ticketPrice: string) {
-    this.lindId = lindId;
-    this.lineName = lineName;
-    this.endStation = endStation;
-    this.minute = minute;
-    this.nextArriveTime = nextArriveTime;
-    this.upRunTime = upRunTime;
-    this.ticketPrice = ticketPrice;
+  constructor(distance: string, downRunTime: string, endStation: string, isFirstEnd: boolean, lineId: string, lineName: string, location: string, minute: string, nextArriveTime: string, orderNum: string, otherId: string, startStation: string, stationId: string, stationName: string, status: string, ticketPrice: number, twoLine: number, upRunTime: string, createTime: string) {
+    this.distance = distance
+    this.downRunTime = downRunTime
+    this.endStation = endStation
+    this.isFirstEnd = isFirstEnd
+    this.lineId = lineId
+    this.lineName = lineName
+    this.location = location
+    this.minute = minute
+    this.nextArriveTime = nextArriveTime
+    this.orderNum = orderNum
+    this.otherId = otherId
+    this.startStation = startStation
+    this.stationId = stationId
+    this.stationName = stationName
+    this.status = status
+    this.ticketPrice = ticketPrice
+    this.twoLine = twoLine
+    this.upRunTime = upRunTime
+    this.createTime = createTime
   }
 }
 
-@Entry
+
 @Component
 export default struct TramPage {
   // 我的关注
-  @State tramList: Array<Object> = []
+  @State tramList: Array<object> = [] /*[
+    {
+      "stationId": "75",
+      "stationName": "111111111",
+      "status": "1",
+      "otherId": "76",
+      "lineId": "2",
+      "isFirstEnd": false,
+      "dataList": [{
+        "distance": "",
+        "downRunTime": "首06:30 末21:00",
+        "endStation": "111111E11",
+        "isFirstEnd": false,
+        "lineId": "2",
+        "lineName": "L2",
+        "location": "114.477158,30.471281",
+        "minute": "---",
+        "nextArriveTime": "---",
+        "orderNum": "14",
+        "otherId": "76",
+        "startStation": "光谷植物园",
+        "stationId": "75",
+        "stationName": "奥风路",
+        "status": "1",
+        "ticketPrice": 2,
+        "twoLine": 1,
+        "upRunTime": "首06:30 末22:00",
+        "createTime": "1702274443254"
+      }],
+      "flag": true
+    },
+    {
+      "stationId": "2",
+      "stationName": "222222222222",
+      "status": "2",
+      "otherId": "2",
+      "lineId": "3",
+      "isFirstEnd": true,
+      "dataList": [
+        {
+          "distance": "",
+          "downRunTime": "首06:00 末21:30",
+          "endStation": "222222222222",
+          "isFirstEnd": true,
+          "lineId": "3",
+          "lineName": "L3",
+          "location": "114.411903,30.507426",
+          "minute": "---",
+          "nextArriveTime": "---",
+          "orderNum": "1",
+          "otherId": "2",
+          "startStation": "华中大",
+          "stationId": "2",
+          "stationName": "华中大",
+          "status": "2",
+          "ticketPrice": 2,
+          "twoLine": 1,
+          "upRunTime": "首06:00 末21:30",
+          "createTime": "1702274442951"
+        }, {
+        "distance": "",
+        "downRunTime": "首06:04 末21:30",
+        "endStation": "3333333333",
+        "isFirstEnd": true,
+        "lineId": "1",
+        "lineName": "L1",
+        "location": "114.411903,30.507426",
+        "minute": "---",
+        "nextArriveTime": "---",
+        "orderNum": "1",
+        "otherId": "2",
+        "startStation": "华中大",
+        "stationId": "2",
+        "stationName": "华中大",
+        "status": "2",
+        "ticketPrice": 2,
+        "twoLine": 1,
+        "upRunTime": "首06:00 末22:12",
+        "createTime": "1702274442954"
+      }],
+      "flag": true
+    }]*/
   @State message: string = 'Hello World!'
   private controller: TabsController = new TabsController()
 
@@ -56,12 +176,18 @@ export default struct TramPage {
   build() {
     Column({ space: 8 }) {
       Row() {
-        Text('列表').fontSize(20).fontWeight('bold')
-          .onClick(() => {this.subscribeList4();})
+        Text('最近列表').fontSize(20).fontWeight('bold')
+          .onClick(() => {
+            this.getLccStationListFun();
+          })
         Text('我的关注').fontSize(20).fontWeight('bold')
-          .onClick(() => {this.subscribeList4();})
+          .onClick(() => {
+            this.subscribeList4();
+          })
         Text('跳转高德').fontSize(20).fontWeight('bold')
-          .onClick(() => {this.jumpGaode()})
+          .onClick(() => {
+            this.jumpGaode()
+          })
       }
       .width('100%')
       .justifyContent(FlexAlign.SpaceAround)
@@ -81,7 +207,7 @@ export default struct TramPage {
 
                 List({ space: 8 }) {
                   ForEach(item.dataList,
-                    (dataItem: dataList) => {
+                    (dataItem: DataList) => {
                       ListItem() {
                         Column() {
                           Row() {
@@ -108,7 +234,7 @@ export default struct TramPage {
                               Text(dataItem.upRunTime).fontSize(10)
                               Text('|').fontSize(10).padding({ left: 5, right: 5 })
                               Text('票价').fontSize(10)
-                              Text(dataItem.ticketPrice).fontSize(10)
+                              Text(dataItem.ticketPrice + '').fontSize(10)
                               Text('元').fontSize(10)
                             }
 
@@ -143,26 +269,14 @@ export default struct TramPage {
     .padding(20)
   }
 
-  // 只有被@ Entry装饰的组件才可以调用页面的生命周期
-  onPageShow() {
-    console.info('Index onPageShow');
-    this.subscribeList4()
-  }
-  // 只有被@ Entry装饰的组件才可以调用页面的生命周期
-  onPageHide() {
-    console.info('Index onPageHide');
+  aboutToAppear() {
+    this.getLccStationListFun();
   }
 
   // 我的关注列表
   subscribeList4() {
-    // let webSrc = 'https://whyouguidianche.siisoo.com/realBus/subscribeList4?userId=1233666'
-    // httpGet(webSrc).then((res: http.HttpResponse) => {
-    //   this.tramList = JSON.parse(`${ res.result }`).data
-    //   Logger.info('this.subscribeList4', JSON.stringify(this.tramList))
-    // });
-     subscribeList4({ userId: 1233666 })
+    subscribeList4(1233666)
       .then(res => {
-        console.log("res: ", JSON.stringify(res))
         if (res.code === 1) {
           this.tramList = res.data
           promptAction.showToast({ message: res.msg })
@@ -172,6 +286,22 @@ export default struct TramPage {
       })
   }
 
+  getLccStationListFun() {
+    getLccStationList({
+      longitude: 114.3216781616211,
+      latitude: 30.37558937072754,
+      status: 1,
+      userId: 1233666
+    })
+      .then(res => {
+        if (res.code === 1) {
+          this.tramList = res.data
+          promptAction.showToast({ message: res.msg })
+        } else {
+          promptAction.showToast({ message: res.msg })
+        }
+      })
+  }
 
   jumpGaode() {
     let context = getContext(this) as common.UIAbilityContext
@@ -181,29 +311,6 @@ export default struct TramPage {
     })
   }
 
-  getLccStationListFun() {
-    // let webSrc = 'https://whyouguidianche.siisoo.com//realBus/getLccStationList?longitude=114.3216781616211&latitude=30.37558937072754&status=1&userId=1233666'
-    // httpGet(webSrc).then((res: http.HttpResponse) => {
-    //   this.tramList = JSON.parse(res['result'] + '')['data']
-    //   Logger.info('this.getLccStationList', JSON.stringify(this.tramList))
-    // });
-
-    getLccStationList({
-      longitude: 114.3216781616211,
-      latitude: 30.37558937072754,
-      status: 1,
-      userId: 1233666
-    })
-      .then(res => {
-        console.log("res: ", JSON.stringify(res))
-        if (res.code === 1) {
-          this.tramList = res.data
-          promptAction.showToast({ message: res.msg })
-        } else {
-          promptAction.showToast({ message: res.msg })
-        }
-      })
-  }
   // 换向操作
   reversing(obj) {
     Logger.info('obj', JSON.stringify(obj))

@@ -126,7 +126,7 @@ struct MineListView {
           Item({ item: item })
         }
         .height($r('app.float.mine_list_height'))
-      }, (item: ItemData) => JSON.stringify(item))
+      })
     }
     .width(StyleConstants.FULL_PARENT)
     .backgroundColor(Color.White)
