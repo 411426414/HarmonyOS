@@ -8,7 +8,7 @@ export function request(url: string, method: http.RequestMethod, data?: any) {
 
   // 定义一个后台请求的基地址
   const BASE_URL = "https://shopro.411426414.top"
-  if (url.indexOf('http://') == -1) {
+  if (url.indexOf('https://') == -1) {
     url = BASE_URL + url
   }
 
@@ -40,10 +40,7 @@ export function request(url: string, method: http.RequestMethod, data?: any) {
     .then((value: http.HttpResponse) => {
       if (value.responseCode === 200) {
         // 获取返回数据,将返回的json数据解析成事先预定好的响应格式
-        // 这里建议和后端的保持一致
-        // https://shopro.411426414.top/api/whyg/subscribeList4?userId=1233666
         let res: Response = JSON.parse(`${value.result}`);
-        console.info('res.data', JSON.stringify(res.data))
         response.code = res.code;
         response.msg = res.msg;
         response.time = res.time;

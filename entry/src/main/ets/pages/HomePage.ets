@@ -20,14 +20,25 @@ class SwiperItem {
   status_text: string = '';
 }
 
+@Entry
 @Component
 export default struct HomePage {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
-  // private SwiperViewCon: SwiperView = new SwiperView()
-  //
-  // aboutToAppear() {
-  //   this.SwiperViewCon.getBannerList()
-  // }
+  @State SwiperListData: Array<SwiperItem> = [
+    {
+      "id": 1,
+      "title": "轮播图标题",
+      "coverimage": "/uploads/20230318/5060835d87b8a2383f1eb7e1ec8b2743.png",
+      "type": "1",
+      "briefcontent": "<span style=\"color:#333333;font-family:&quot;Source Sans Pro&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size:14px;text-align:right;white-space:normal;background-color:#FFFFFF;\">详情</span>",
+      "exhibits_id": null,
+      "status": "1",
+      "weigh": 1,
+      "createtime": 1677816088,
+      "updatetime": 1679128186,
+      "status_text": "显示"
+    }
+  ];
 
   build() {
     Scroll() {
@@ -41,7 +52,7 @@ export default struct HomePage {
           })
           .alignSelf(ItemAlign.Start)
         // Swiper轮播图组件
-        SwiperView()
+        SwiperView({ swiperListData: $SwiperListData })
         // 中间Grid组件
         CenterGridView()
         // 底部图片列表组件
@@ -52,99 +63,49 @@ export default struct HomePage {
     }
     .scrollBar(BarState.Off)
   }
-}
-
-
-@Preview
-@Component
-struct SwiperView {
-  @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
-  @State SwiperListData: Array<SwiperItem> = [
-  /*{
-    "id": 1,
-    "title": "轮播图标题",
-    "coverimage": "/uploads/20230318/5060835d87b8a2383f1eb7e1ec8b2743.png",
-    "type": "1",
-    "briefcontent": "<span style=\"color:#333333;font-family:&quot;Source Sans Pro&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size:14px;text-align:right;white-space:normal;background-color:#FFFFFF;\">详情</span>",
-    "exhibits_id": null,
-    "status": "1",
-    "weigh": 1,
-    "createtime": 1677816088,
-    "updatetime": 1679128186,
-    "status_text": "显示"
-  },
-  {
-    "id": 2,
-    "title": "",
-    "coverimage": "/uploads/20230318/4758b708b13d28f13b76437a2084d085.jpg",
-    "type": "1",
-    "briefcontent": "",
-    "exhibits_id": null,
-    "status": "1",
-    "weigh": 2,
-    "createtime": 1679128160,
-    "updatetime": 1679128160,
-    "status_text": "显示"
-  },
-  {
-    "id": 3,
-    "title": "宜昌园",
-    "coverimage": "/assets/img/qrcode.png",
-    "type": "2",
-    "briefcontent": null,
-    "exhibits_id": 2,
-    "status": "1",
-    "weigh": 3,
-    "createtime": 1680234926,
-    "updatetime": 1687854462,
-    "status_text": "显示"
-  },
-  {
-    "id": 4,
-    "title": "",
-    "coverimage": "/uploads/20230318/fb1ee56c220c47ceb84f00f929450c9f.jpg",
-    "type": "2",
-    "briefcontent": null,
-    "exhibits_id": 2,
-    "status": "1",
-    "weigh": 4,
-    "createtime": 1683984891,
-    "updatetime": 1683984891,
-    "status_text": "显示"
-  }*/
-  ];
 
   aboutToAppear() {
     this.getBannerList()
-  }
-
-  build() {
-    Column() {
-      Swiper() {
-        ForEach(this.SwiperListData, (item: SwiperItem) => {
-          Image('https://gzh.411426414.top' + item.coverimage).borderRadius($r('app.float.swiper_radius')).height(200)
-        }, (item) => item.id)
-      }
-      .displayCount(this.currentDeviceSize === CommonConstants.SM ? StyleConstants.SWIPER_COUNT_ONE : (this.currentDeviceSize === CommonConstants.MD ? StyleConstants.SWIPER_COUNT_TWO : StyleConstants.SWIPER_COUNT_THREE))
-      .itemSpace(this.currentDeviceSize === CommonConstants.SM ? 0 : StyleConstants.ITEM_SPACE)
-      .displayCount(CommonConstants.SWIPER_CACHE_COUNT)
-      .margin($r('app.float.common_margin'))
-      .width(StyleConstants.COMMON_WIDTH)
-      .autoPlay(true)
-    }
   }
 
   // 我的关注列表
   getBannerList() {
     BannerList()
       .then(res => {
+        console.log('res', JSON.stringify(res))
         if (res.code === 1) {
           this.SwiperListData = res.data
+          console.log(res.data.toString())
           promptAction.showToast({ message: res.msg })
         } else {
           promptAction.showToast({ message: res.msg })
         }
       })
+  }
+}
+
+
+@Component
+struct SwiperView {
+  @Link swiperListData: Array<SwiperItem>
+  @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
+
+  build() {
+    Column() {
+      Swiper() {
+        ForEach(this.swiperListData, (item: SwiperItem) => {
+          Image('https://gzh.411426414.top' + item.coverimage)
+            .borderRadius($r('app.float.swiper_radius'))
+            .height(200)
+            .width('100%')
+        }, (item) => item.id)
+      }
+      .displayCount(this.currentDeviceSize === CommonConstants.SM ? StyleConstants.SWIPER_COUNT_ONE : (this.currentDeviceSize === CommonConstants.MD ? StyleConstants.SWIPER_COUNT_TWO : StyleConstants.SWIPER_COUNT_THREE))
+      .itemSpace(this.currentDeviceSize === CommonConstants.SM ? 0 : StyleConstants.ITEM_SPACE)
+      .margin($r('app.float.common_margin'))
+      .width(StyleConstants.COMMON_WIDTH)
+      .autoPlay(true)
+    }
   }
 }
 
