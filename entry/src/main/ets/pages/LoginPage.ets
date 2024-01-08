@@ -10,14 +10,18 @@ import TextPro from './components/TextPro'
 
 //导入toast包
 import promptAction from '@ohos.promptAction'
+import Constant from '../common/constants/Constant';
 
-@Preview
+@Entry
 @Component
-struct UserPage {
+struct LoginPage {
   @State user: User = {
-    account: '411426414',
+    account: 'zhengjie',
     password: '123456'
   }
+  @State sex: string[] = ['保密', '男', '女']
+  @State msg: string = ''
+  @State token: string = ''
 
   //组件展示前进行数据的一个请求
   aboutToAppear() {
@@ -112,7 +116,7 @@ struct UserPage {
             this.user.password = value
           })
 
-        Image($r('app.media.avatar'))
+        /*Image($r('app.media.avatar'))
           .width(Constant.AVATAR_SIZE)
           .height(Constant.AVATAR_SIZE)
           .alignSelf(ItemAlign.Center)
@@ -152,7 +156,7 @@ struct UserPage {
               }
             })
           }
-        })
+        })*/
         Button('登录')
           .width(250)
           .margin({ top: 20 })
@@ -163,12 +167,19 @@ struct UserPage {
                 console.log("res: ", JSON.stringify(res))
                 if (res.code === 1) {
                   this.user = res.data
-                  // console.log("JSON.stringify(res.data): ", JSON.stringify(res.data))
+                  this.token = res.data.userinfo.token
                 } else {
                   promptAction.showToast({ message: res.msg })
                 }
               })
           })
+        Row() {
+          Text('Token:').fontSize(24).margin({ right: 10 })
+          Text(this.token).fontSize(16)
+        }
+        .width('100%')
+        .margin({ top: 10 })
+        .justifyContent(FlexAlign.Start)
 
         Row() {
           Button('发送通知').onClick(() => {
