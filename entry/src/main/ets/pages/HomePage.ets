@@ -1,31 +1,19 @@
+// @ts-nocheck
 import mainViewModel from '../viewmodel/MainViewModel';
 import CommonConstants from '../common/constants/CommonConstants';
 import StyleConstants from '../common/constants/StyleConstants';
 import CommonUtils from '../common/utils/CommonUtils';
 import ItemData from '../viewmodel/ItemData';
-import { BannerList } from '../api/graduation';
+import { BannerList,ClassInfoList } from '../api/graduation';
 import promptAction from '@ohos.promptAction';
+import  {SwiperItem, CenterGridItem} from '../viewmodel/HomePage'
 
-class SwiperItem {
-  id: number = 0;
-  title: string = '';
-  coverimage: string = '';
-  type: string = '';
-  briefcontent: string = '';
-  exhibits_id: number = 0;
-  status: string = '';
-  weigh: number = 0;
-  createtime: number = 0;
-  updatetime: number = 0;
-  status_text: string = '';
-}
 
 @Entry
 @Component
 export default struct HomePage {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
-  @State SwiperListData: Array<SwiperItem> = [
-    {
+  @State SwiperListData: Array<SwiperItem> = [{
       "id": 1,
       "title": "轮播图标题",
       "coverimage": "/uploads/20230318/5060835d87b8a2383f1eb7e1ec8b2743.png",
@@ -37,8 +25,8 @@ export default struct HomePage {
       "createtime": 1677816088,
       "updatetime": 1679128186,
       "status_text": "显示"
-    }
-  ];
+    }];
+  @State CenterGridData: Array<CenterGridItem> = []
 
   build() {
     Scroll() {
@@ -54,7 +42,7 @@ export default struct HomePage {
         // Swiper轮播图组件
         SwiperView({ swiperListData: $SwiperListData })
         // 中间Grid组件
-        CenterGridView()
+        CenterGridView({ centerGridData: $CenterGridData })
         // 底部图片列表组件
         ListImageView()
       }
@@ -66,13 +54,13 @@ export default struct HomePage {
 
   aboutToAppear() {
     this.getBannerList()
+    this.getClassInfoList()
   }
 
-  // 我的关注列表
+  // 轮播图
   getBannerList() {
     BannerList()
       .then(res => {
-        console.log('res', JSON.stringify(res))
         if (res.code === 1) {
           this.SwiperListData = res.data
           console.log(res.data.toString())
@@ -82,8 +70,19 @@ export default struct HomePage {
         }
       })
   }
+  // 获取信息分类列表
+  getClassInfoList() {
+    ClassInfoList()
+      .then(res => {
+        if (res.code === 1) {
+          this.CenterGridData = res.data
+          promptAction.showToast({ message: res.msg })
+        } else {
+          promptAction.showToast({ message: res.msg })
+        }
+      })
+  }
 }
-
 
 @Component
 struct SwiperView {
@@ -109,47 +108,34 @@ struct SwiperView {
   }
 }
 
-@Preview
 @Component
 struct CenterGridView {
+  @Link centerGridData: Array<CenterGridItem>
   build() {
     Column() {
       Grid() {
-        ForEach(mainViewModel.getCenterGridData(), (item: ItemData) => {
+        ForEach(this.centerGridData, (item: CenterGridItem) => {
           GridItem() {
             GridItemView({ item: item })
           }
-        }, (item: ItemData) => JSON.stringify(item))
-      }
-      .columnsTemplate(StyleConstants.GRID_COLUMNS)
-      .rowsTemplate(StyleConstants.GRID_ROWS)
-      .columnsGap($r('app.float.grid_column_gap'))
-      .rowsGap($r('app.float.grid_row_gap'))
-      .height(StyleConstants.HOME_GRID_HEIGHT)
-      .backgroundColor(Color.White)
-      .borderRadius($r('app.float.home_grid_radius'))
-      .padding({
-        top: $r('app.float.home_grid_padding'),
-        bottom: $r('app.float.home_grid_padding')
-      })
-      .width(StyleConstants.COMMON_WIDTH)
-      .margin($r('app.float.common_margin'))
+        }, (item: CenterGridItem) => item.id)
+      }   .columnsTemplate(StyleConstants.GRID_COLUMNS)   .rowsTemplate(StyleConstants.GRID_ROWS)   .columnsGap($r('app.float.grid_column_gap')) .rowsGap($r('app.float.grid_row_gap'))  .height(StyleConstants.HOME_GRID_HEIGHT)  .backgroundColor(Color.White)   .borderRadius($r('app.float.home_grid_radius'))   .padding({ top: $r('app.float.home_grid_padding'), bottom: $r('app.float.home_grid_padding') })  .width(StyleConstants.COMMON_WIDTH).margin($r('app.float.common_margin'))
     }
   }
 }
 
 @Component
 struct GridItemView {
-  private item?: ItemData;
+  private item?: CenterGridItem;
   private gridItemImg?: Resource;
-  private gridItemTitle?: Resource;
+  private name?: string;
   private gridItemPrompt?: Resource;
 
   aboutToAppear() {
     if (this.item !== undefined) {
       this.gridItemImg = this.item.img;
-      this.gridItemTitle = this.item.title;
-      this.gridItemPrompt = this.item.clickPrompt;
+      this.name = this.item.name;
+      this.gridItemPrompt = this.item.name;
     }
   }
 
@@ -160,13 +146,14 @@ struct GridItemView {
           .width($r('app.float.home_cell_size'))
           .height($r('app.float.home_cell_size'))
       }
-      if (this.gridItemTitle) {
-        Text(this.gridItemTitle)
+      if (this.name) {
+        Text(this.name)
           .fontSize($r('app.float.little_text_size'))
           .margin({ top: $r('app.float.home_cell_margin') })
       }
     }
     .onClick(() => {
+      // 点击事件 文字为空的时候 return， 否则输出文字
       if (!this.gridItemPrompt) {
         return;
       }
