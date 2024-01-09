@@ -11,14 +11,27 @@ export function request(url: string, method: http.RequestMethod, data?: any) {
   if (url.indexOf('https://') == -1) {
     url = BASE_URL + url
   }
+  if (method == http.RequestMethod.GET) {
+    console.log('data', JSON.stringify(data))
+    let getParams = '?';
+    for (let key in data) {
+      if (Object.prototype.hasOwnProperty.call(data, key)) {
+        const value = encodeURIComponent(data[key]); // 编码特殊字符
+        getParams += `${encodeURIComponent(key)}=${value}&`;
+      }
+    }
+    let params = getParams ? getParams.slice(0, -1) : ''; // 去除最后多余的 "&" 符号
+
+    url = url + params
+  }
 
   let httpRequest = http.createHttp();
   let responseResult = httpRequest.request(url, {
     method: method,
-    // header: {
-    //   'Content-Type': 'application/json'
-    // },
-    // 携带额外参数 
+    header: {
+      'Content-Type': 'application/json'
+    },
+    // 携带额外参数：当使用POST请求时此字段用于传递内容
     extraData: JSON.stringify(data),
     // 可选，指定返回数据的类型
     // expectDataType: http.HttpDataType.STRING,
