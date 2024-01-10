@@ -12,7 +12,6 @@ import TextPro from './components/TextPro'
 import promptAction from '@ohos.promptAction'
 import Constant from '../common/constants/Constant';
 
-@Entry
 @Component
 struct LoginPage {
   @State user: User = {

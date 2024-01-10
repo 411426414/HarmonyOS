@@ -15,7 +15,7 @@ import Logger from '../common/utils/Logger';
 @Component
 struct Index {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
-  @State currentIndex: number = CommonConstants.ZIXUN_TAB_INDEX;
+  @State currentIndex: number = CommonConstants.HOME_TAB_INDEX;
 
   build() {
     Tabs({

@@ -8,7 +8,6 @@ import { CenterGridItem, InfoListItem } from '../../viewmodel/HomePage';
 import { ClassInfoList, ZixunInfoList } from '../../api/graduation';
 import promptAction from '@ohos.promptAction';
 
-@Entry
 @Component
 export default struct HomePage {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;

@@ -5,13 +5,13 @@
         "name": "default",
         "type": "HarmonyOS",
         "material": {
-          "certpath": "C:\\Users\\HUAWEI\\.ohos\\config\\auto_debug_HarmonyOS_com.example.harmonyos_300086000021346761.cer",
-          "storePassword": "0000001B924506B92835B5A4200B73B0431DF22DD3E0F515912C02F551B7E523EB9A121C451DB558B7FDD0",
+          "certpath": "C:\\Users\\ASUS\\.ohos\\config\\auto_debug_HarmonyOS_com.example.harmonyos_300086000021346761.cer",
+          "storePassword": "0000001BF26834401F3C520E72C714349E128A2E4B1830818309C5A96A243CB29A034BE054B5ED2B99EF67",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BBEFB1B056E5C3237AA2A480924922A7CFBBED645C601501F6DB95CA08452A303913AA4AA88DAF6",
-          "profile": "C:\\Users\\HUAWEI\\.ohos\\config\\auto_debug_HarmonyOS_com.example.harmonyos_300086000021346761.p7b",
+          "keyPassword": "0000001BF1C29BD8D16D63D219EE904575B5DF1B2E91B402E97B40506C2AB3418E52405035F7035158AA99",
+          "profile": "C:\\Users\\ASUS\\.ohos\\config\\auto_debug_HarmonyOS_com.example.harmonyos_300086000021346761.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:\\Users\\HUAWEI\\.ohos\\config\\auto_debug_HarmonyOS_com.example.harmonyos_300086000021346761.p12"
+          "storeFile": "C:\\Users\\ASUS\\.ohos\\config\\auto_debug_HarmonyOS_com.example.harmonyos_300086000021346761.p12"
         }
       }
     ],
