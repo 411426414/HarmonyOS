@@ -12,9 +12,9 @@ export class SwiperItem {
   status_text: string = '';
 }
 
-
 export class CenterGridItem {
   id: number = 0;
+  img?: string = '';
   name: string = '';
   key: string = '';
   status: string = '';
@@ -48,4 +48,16 @@ export class InfoListItem {
   status_text: string = '';
   recommend_text: string = '';
   hot_text: string = '';
+}
+
+
+export class NoticeItem {
+  id: number = 0;
+  title: string = '';
+  shortdesc: string = '';
+  publiserby: string = '';
+  briefcontent: string = '';
+  publishdate: string = '';
+  createtime: number = 0;
+  publishdata_text: string = '';
 }
