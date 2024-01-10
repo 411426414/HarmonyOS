@@ -91,8 +91,8 @@ struct TabsBar {
         Tabs({ barPosition: BarPosition.Start, index: this.currentIndex }) {
           ForEach(this.centerGridData, (item, index) => {
             TabContent() {
-                // Text(item.name).fontSize($r('app.float.common_text_size')).fontWeight(FontWeight.Medium)
-                ZiXunContentList({ infoList: $InfoList })
+              // Text(item.name).fontSize($r('app.float.common_text_size')).fontWeight(FontWeight.Medium)
+              ZiXunContentList({ infoList: $InfoList })
             }.tabBar(item.name)
           }, (item, index) => item.id)
         }
@@ -121,14 +121,14 @@ struct TabsBar {
       page: 1,
       pagesize: 10
     }).then(res => {
-        if (res.code === 1) {
-          this.InfoList = res.data
-          console.log('res.data', res.data.length)
-          promptAction.showToast({ message: res.msg })
-        } else {
-          promptAction.showToast({ message: res.msg })
-        }
-      })
+      if (res.code === 1) {
+        this.InfoList = res.data
+        console.log('res.data', res.data.length)
+        promptAction.showToast({ message: res.msg })
+      } else {
+        promptAction.showToast({ message: res.msg })
+      }
+    })
   }
 }
 
@@ -139,7 +139,7 @@ struct ZiXunContentList {
 
   build() {
     List({ space: 8 }) {
-      ForEach(this.infoList, (item: InfoListItem) => {
+      ForEach(this.infoList, (item: InfoListItem, index: number) => {
         ListItem() {
           Column() {
             Row() {
@@ -166,8 +166,8 @@ struct ZiXunContentList {
           }
           .width(StyleConstants.COMMON_WIDTH)
           .borderRadius(10)
-          .margin({ top: 10, left: 10, right: 10 })
-          .padding({ left: 15, right: 15, top: 15, bottom: 15 })
+          .margin({ top: index == 0 ? 10 : 0, left: 10, right: 10 })
+          .padding({ left: 15, top: 15, bottom: 15, right: 15 })
           .backgroundColor(Color.White)
         }
       })
