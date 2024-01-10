@@ -5,7 +5,7 @@ import httpGet from '../common/utils/HttpUtil';
 import promptAction from '@ohos.promptAction';
 import Logger from '../common/utils/Logger';
 import router from '@ohos.router';
-import { getLccStationList, subscribeList4 } from '../api/tram'
+import { getLccInfoByStationId, getLccStationList, subscribeList4 } from '../api/tram'
 import common from '@ohos.app.ability.common';
 import hilog from '@ohos.hilog';
 
@@ -80,88 +80,7 @@ class DataList {
 @Component
 export default struct TramPage {
   // 我的关注
-  @State tramList: Array<object> = [] /*[
-    {
-      "stationId": "75",
-      "stationName": "111111111",
-      "status": "1",
-      "otherId": "76",
-      "lineId": "2",
-      "isFirstEnd": false,
-      "dataList": [{
-        "distance": "",
-        "downRunTime": "首06:30 末21:00",
-        "endStation": "111111E11",
-        "isFirstEnd": false,
-        "lineId": "2",
-        "lineName": "L2",
-        "location": "114.477158,30.471281",
-        "minute": "---",
-        "nextArriveTime": "---",
-        "orderNum": "14",
-        "otherId": "76",
-        "startStation": "光谷植物园",
-        "stationId": "75",
-        "stationName": "奥风路",
-        "status": "1",
-        "ticketPrice": 2,
-        "twoLine": 1,
-        "upRunTime": "首06:30 末22:00",
-        "createTime": "1702274443254"
-      }],
-      "flag": true
-    },
-    {
-      "stationId": "2",
-      "stationName": "222222222222",
-      "status": "2",
-      "otherId": "2",
-      "lineId": "3",
-      "isFirstEnd": true,
-      "dataList": [
-        {
-          "distance": "",
-          "downRunTime": "首06:00 末21:30",
-          "endStation": "222222222222",
-          "isFirstEnd": true,
-          "lineId": "3",
-          "lineName": "L3",
-          "location": "114.411903,30.507426",
-          "minute": "---",
-          "nextArriveTime": "---",
-          "orderNum": "1",
-          "otherId": "2",
-          "startStation": "华中大",
-          "stationId": "2",
-          "stationName": "华中大",
-          "status": "2",
-          "ticketPrice": 2,
-          "twoLine": 1,
-          "upRunTime": "首06:00 末21:30",
-          "createTime": "1702274442951"
-        }, {
-        "distance": "",
-        "downRunTime": "首06:04 末21:30",
-        "endStation": "3333333333",
-        "isFirstEnd": true,
-        "lineId": "1",
-        "lineName": "L1",
-        "location": "114.411903,30.507426",
-        "minute": "---",
-        "nextArriveTime": "---",
-        "orderNum": "1",
-        "otherId": "2",
-        "startStation": "华中大",
-        "stationId": "2",
-        "stationName": "华中大",
-        "status": "2",
-        "ticketPrice": 2,
-        "twoLine": 1,
-        "upRunTime": "首06:00 末22:12",
-        "createTime": "1702274442954"
-      }],
-      "flag": true
-    }]*/
+  @State tramList: Array<object> = []
   @State message: string = 'Hello World!'
   private controller: TabsController = new TabsController()
 
@@ -194,20 +113,22 @@ export default struct TramPage {
 
       List({ space: 8 }) {
         ForEach(this.tramList,
-          (item: Tram) => {
+          (item: Tram, index: number) => {
             ListItem() {
-              Flex({ direction: FlexDirection.Column }) {
+              Column() {
                 Row() {
                   Text(item.stationName).fontSize(20).fontWeight('bold')
+                  Image(item.flag ? $r('app.media.hart_sel') : $r('app.media.hart')).width(26).height(26)
                 }
-                .justifyContent(FlexAlign.Start)
+                .justifyContent(FlexAlign.SpaceBetween)
+                .alignItems(VerticalAlign.Center)
                 .width('100%')
                 .height(30)
                 .padding({ left: 5, top: 5 })
 
                 List({ space: 8 }) {
                   ForEach(item.dataList,
-                    (dataItem: DataList) => {
+                    (dataItem: DataList, dataIndex: number) => {
                       ListItem() {
                         Column() {
                           Row() {
@@ -219,9 +140,15 @@ export default struct TramPage {
                             .justifyContent(FlexAlign.SpaceAround)
                             .alignItems(VerticalAlign.Center).width('33%')
 
-                            Text('换向').fontSize(10).onClick(() => {
-                              this.reversing(dataItem)
-                            })
+                            Row() {
+                              Image($r('app.media.reversing')).height(20).margin({ right: 5 })
+                              Text('换向').fontSize(10).onClick(() => {
+                                this.reversing(dataItem, index)
+                              })
+                            }
+                            .justifyContent(FlexAlign.SpaceBetween)
+                            .alignItems(VerticalAlign.Center)
+
                             Text(dataItem.minute).fontSize(10).fontSize(14).fontWeight('bold').fontColor('#47C4FD')
                           }
                           .justifyContent(FlexAlign.SpaceBetween)
@@ -249,12 +176,10 @@ export default struct TramPage {
                     })
                 }
                 .width('100%')
-                .layoutWeight(1)
               }
               .width('100%')
-              .backgroundColor('#FFF')
+              .backgroundColor(Color.White)
               .borderRadius(20)
-              .height(140)
               .padding(10)
             }
           }
@@ -275,7 +200,7 @@ export default struct TramPage {
 
   // 我的关注列表
   subscribeList4() {
-    subscribeList4(1233666)
+    subscribeList4({ userId: 1233666 })
       .then(res => {
         if (res.code === 1) {
           this.tramList = res.data
@@ -286,6 +211,7 @@ export default struct TramPage {
       })
   }
 
+  // 最近列表
   getLccStationListFun() {
     getLccStationList({
       longitude: 114.3216781616211,
@@ -303,16 +229,30 @@ export default struct TramPage {
       })
   }
 
+  // 换向操作
+  reversing(obj: DataList, index: number) {
+    // 查看站点信息
+    getLccInfoByStationId({
+      userId: 12336666,
+      stationId: obj.otherId,
+      lineNo: obj.lineId,
+      status: obj.status == '1' ? 2 : 1,
+    })
+      .then(res => {
+        if (res.code === 1) {
+          this.tramList[index] = res.data
+          promptAction.showToast({ message: res.msg })
+        } else {
+          promptAction.showToast({ message: res.msg })
+        }
+      })
+  }
+
   jumpGaode() {
     let context = getContext(this) as common.UIAbilityContext
     context.startAbility({
       uri: "androidamap://navi?sourceApplication=appname&lat=" + this.latitude + "&lon=" + this.longitude + "&dev=1",
       action: "android.intent.action.VIEW"
     })
-  }
-
-  // 换向操作
-  reversing(obj) {
-    Logger.info('obj', JSON.stringify(obj))
   }
 }
