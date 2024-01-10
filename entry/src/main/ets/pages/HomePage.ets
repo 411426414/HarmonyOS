@@ -1,32 +1,39 @@
-// @ts-nocheck
 import mainViewModel from '../viewmodel/MainViewModel';
 import CommonConstants from '../common/constants/CommonConstants';
 import StyleConstants from '../common/constants/StyleConstants';
 import CommonUtils from '../common/utils/CommonUtils';
 import ItemData from '../viewmodel/ItemData';
-import { BannerList,ClassInfoList } from '../api/graduation';
 import promptAction from '@ohos.promptAction';
-import  {SwiperItem, CenterGridItem} from '../viewmodel/HomePage'
+import { SwiperItem, CenterGridItem, NoticeItem } from '../viewmodel/HomePage'
+import { BannerList, ClassInfoList, NoticeList } from '../api/graduation';
 
-
-@Entry
 @Component
 export default struct HomePage {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
   @State SwiperListData: Array<SwiperItem> = [{
-      "id": 1,
-      "title": "轮播图标题",
-      "coverimage": "/uploads/20230318/5060835d87b8a2383f1eb7e1ec8b2743.png",
-      "type": "1",
-      "briefcontent": "<span style=\"color:#333333;font-family:&quot;Source Sans Pro&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size:14px;text-align:right;white-space:normal;background-color:#FFFFFF;\">详情</span>",
-      "exhibits_id": null,
-      "status": "1",
-      "weigh": 1,
-      "createtime": 1677816088,
-      "updatetime": 1679128186,
-      "status_text": "显示"
-    }];
+    "id": 1,
+    "title": "轮播图标题",
+    "coverimage": "/uploads/20230318/5060835d87b8a2383f1eb7e1ec8b2743.png",
+    "type": "1",
+    "briefcontent": "<span style=\"color:#333333;font-family:&quot;Source Sans Pro&quot;, &quot;Helvetica Neue&quot;, Helvetica, Arial, sans-serif;font-size:14px;text-align:right;white-space:normal;background-color:#FFFFFF;\">详情</span>",
+    "exhibits_id": null,
+    "status": "1",
+    "weigh": 1,
+    "createtime": 1677816088,
+    "updatetime": 1679128186,
+    "status_text": "显示"
+  }];
   @State CenterGridData: Array<CenterGridItem> = []
+  @State NoticeListData: Array<NoticeItem> = [{
+    "id": 6,
+    "title": "遇友酣庆套餐",
+    "shortdesc": "1",
+    "publiserby": "发布人",
+    "briefcontent": "21",
+    "publishdate": "2023-05-20 23:42:33",
+    "createtime": 1684597362,
+    "publishdata_text": ""
+  }]
 
   build() {
     Scroll() {
@@ -39,10 +46,15 @@ export default struct HomePage {
             top: $r('app.float.common_margin')
           })
           .alignSelf(ItemAlign.Start)
+
         // Swiper轮播图组件
         SwiperView({ swiperListData: $SwiperListData })
+
+        Notice({ noticeListData: $NoticeListData })
+
         // 中间Grid组件
         CenterGridView({ centerGridData: $CenterGridData })
+
         // 底部图片列表组件
         ListImageView()
       }
@@ -54,6 +66,7 @@ export default struct HomePage {
 
   aboutToAppear() {
     this.getBannerList()
+    this.getNoticeList()
     this.getClassInfoList()
   }
 
@@ -81,6 +94,38 @@ export default struct HomePage {
           promptAction.showToast({ message: res.msg })
         }
       })
+  }
+  // 获取公告列表
+  getNoticeList() {
+    NoticeList()
+      .then(res => {
+        if (res.code === 1) {
+          this.NoticeListData = res.data
+          promptAction.showToast({ message: res.msg })
+        } else {
+          promptAction.showToast({ message: res.msg })
+        }
+      })
+  }
+}
+
+@Component
+struct Notice {
+  @Link noticeListData: Array<NoticeItem>
+
+  build() {
+    Swiper() {
+      ForEach(this.noticeListData, (item: NoticeItem) => {
+        Text(item.title)
+      }, (item) => item.id)
+    }
+    .autoPlay(true)
+    .indicator(false)
+    .vertical(true)
+    .width('100%')
+    .padding({left:50, right:50, top: 15, bottom: 15})
+    .backgroundColor('#ffffff')
+    .borderRadius(15)
   }
 }
 
@@ -111,6 +156,7 @@ struct SwiperView {
 @Component
 struct CenterGridView {
   @Link centerGridData: Array<CenterGridItem>
+
   build() {
     Column() {
       Grid() {
@@ -118,8 +164,19 @@ struct CenterGridView {
           GridItem() {
             GridItemView({ item: item })
           }
-        }, (item: CenterGridItem) => item.id)
-      }   .columnsTemplate(StyleConstants.GRID_COLUMNS)   .rowsTemplate(StyleConstants.GRID_ROWS)   .columnsGap($r('app.float.grid_column_gap')) .rowsGap($r('app.float.grid_row_gap'))  .height(StyleConstants.HOME_GRID_HEIGHT)  .backgroundColor(Color.White)   .borderRadius($r('app.float.home_grid_radius'))   .padding({ top: $r('app.float.home_grid_padding'), bottom: $r('app.float.home_grid_padding') })  .width(StyleConstants.COMMON_WIDTH).margin($r('app.float.common_margin'))
+          // , (item: CenterGridItem, index: number) => index
+        })
+      }
+      .columnsTemplate(StyleConstants.GRID_COLUMNS)
+      .rowsTemplate(StyleConstants.GRID_ROWS)
+      .columnsGap($r('app.float.grid_column_gap'))
+      .rowsGap($r('app.float.grid_row_gap'))
+      .height(StyleConstants.HOME_GRID_HEIGHT)
+      .backgroundColor(Color.White)
+      .borderRadius($r('app.float.home_grid_radius'))
+      .padding({ top: $r('app.float.home_grid_padding'), bottom: $r('app.float.home_grid_padding') })
+      .width(StyleConstants.COMMON_WIDTH)
+      .margin($r('app.float.common_margin'))
     }
   }
 }
@@ -127,13 +184,13 @@ struct CenterGridView {
 @Component
 struct GridItemView {
   private item?: CenterGridItem;
-  private gridItemImg?: Resource;
+  private gridItemImg?: string;
   private name?: string;
-  private gridItemPrompt?: Resource;
+  private gridItemPrompt?: string;
 
   aboutToAppear() {
     if (this.item !== undefined) {
-      this.gridItemImg = this.item.img;
+      this.gridItemImg = 'https://gzh.411426414.top' + this.item.img??'';
       this.name = this.item.name;
       this.gridItemPrompt = this.item.name;
     }
