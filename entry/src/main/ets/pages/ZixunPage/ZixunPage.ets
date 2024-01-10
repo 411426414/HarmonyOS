@@ -13,88 +13,7 @@ export default struct HomePage {
   @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
   @State sex: string[] = ['保密', '男', '女']
   @State msg: string = ''
-  @State CenterGridData: Array<CenterGridItem> = [
-    {
-      "id": 1,
-      "name": "全部",
-      "key": "all",
-      "status": "1",
-      "wigth": 1,
-      "createtime": 1681800978,
-      "updatetime": 1681801541,
-      "status_text": "显示"
-    },
-    {
-      "id": 2,
-      "name": "热门",
-      "key": "hot",
-      "status": "1",
-      "wigth": 2,
-      "createtime": 1681800998,
-      "updatetime": 1681801005,
-      "status_text": "显示"
-    },
-    {
-      "id": 3,
-      "name": "推荐",
-      "key": "tuijian",
-      "status": "1",
-      "wigth": 3,
-      "createtime": 1681801022,
-      "updatetime": 1681801022,
-      "status_text": "显示"
-    },
-    {
-      "id": 4,
-      "name": "会员",
-      "key": "vip",
-      "status": "1",
-      "wigth": 4,
-      "createtime": 1681801040,
-      "updatetime": 1681801040,
-      "status_text": "显示"
-    },
-    {
-      "id": 5,
-      "name": "免费",
-      "key": "free",
-      "status": "1",
-      "wigth": 5,
-      "createtime": 1681801056,
-      "updatetime": 1681801056,
-      "status_text": "显示"
-    },
-    {
-      "id": 6,
-      "name": "图片",
-      "key": "pic",
-      "status": "1",
-      "wigth": 6,
-      "createtime": 1681801083,
-      "updatetime": 1681801083,
-      "status_text": "显示"
-    },
-    {
-      "id": 7,
-      "name": "音频",
-      "key": "audio",
-      "status": "1",
-      "wigth": 7,
-      "createtime": 1681801100,
-      "updatetime": 1681801121,
-      "status_text": "显示"
-    },
-    {
-      "id": 8,
-      "name": "视频",
-      "key": "video",
-      "status": "1",
-      "wigth": 8,
-      "createtime": 1681801113,
-      "updatetime": 1681801113,
-      "status_text": "显示"
-    }
-  ]
+  @State CenterGridData: Array<CenterGridItem> = []
 
   build() {
     Scroll() {
@@ -172,10 +91,9 @@ struct TabsBar {
         Tabs({ barPosition: BarPosition.Start, index: this.currentIndex }) {
           ForEach(this.centerGridData, (item, index) => {
             TabContent() {
-              // Text(item.name).fontSize($r('app.float.common_text_size')).fontWeight(FontWeight.Medium)
-              ZiXunContentList({ infoList: $InfoList })
+                // Text(item.name).fontSize($r('app.float.common_text_size')).fontWeight(FontWeight.Medium)
+                ZiXunContentList({ infoList: $InfoList })
             }.tabBar(item.name)
-
           }, (item, index) => item.id)
         }
         .barWidth(StyleConstants.COMMON_WIDTH)
@@ -221,7 +139,7 @@ struct ZiXunContentList {
 
   build() {
     List({ space: 8 }) {
-      ForEach(this.infoList, (item: InfoListItem, index: number) => {
+      ForEach(this.infoList, (item: InfoListItem) => {
         ListItem() {
           Column() {
             Row() {
@@ -255,6 +173,7 @@ struct ZiXunContentList {
       })
     }
     .backgroundColor('#ffd2cfcf')
+    .height('100%')
   }
 
   @State obj: InfoListItem = {
