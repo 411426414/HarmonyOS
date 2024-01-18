@@ -1,5 +1,12 @@
 {
   "src": [
-    "pages/Index"
+    "pages/Index",
+    "pages/HomePage",
+    "pages/ZixunPage",
+    "pages/TramPage",
+    "pages/AddressPage",
+    "pages/MinePage",
+    "pages/LoginPage",
+    "pages/EmailCodePage"
   ]
 }

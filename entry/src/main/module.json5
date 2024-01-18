@@ -12,16 +12,22 @@
     "installationFree": false,
     "pages": "$profile:main_pages",
     "requestPermissions": [
-      {
-        "name": "ohos.permission.INTERNET"
-      }
+      // 网络权限
+      {"name": "ohos.permission.INTERNET"},
+
+      //API9之前只申请这个就可以米级定位
+      {'name':  'ohos.permission.LOCATION'},//API9之前申请的权限
+
+      //API9后两个权限同时申请才可以获取米级定位，只下边一个权限只能精准到5公里
+      {'name':  'ohos.permission.APPROXIMATELY_LOCATION'},//API9及之后需要增加申请的权限
+
     ],
     "abilities": [
       {
         "name": "EntryAbility",
         "srcEntry": "./ets/entryability/EntryAbility.ts",
         "description": "$string:EntryAbility_desc",
-        "icon": "$media:logo",
+        "icon": "$media:icon",
         "label": "$string:EntryAbility_label",
         "startWindowIcon": "$media:icon",
         "startWindowBackground": "$color:start_window_background",
