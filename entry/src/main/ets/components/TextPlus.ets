@@ -1,4 +1,4 @@
-import Constant from '../../common/constants/Constant'
+import Constant from '../constants/Constant'
 
 @Component
 export default struct TextPlus {

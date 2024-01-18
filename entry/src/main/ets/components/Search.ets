@@ -1,9 +1,10 @@
-import Constant from '../../common/constants/Constant'
+import Constant from '../constants/Constant'
 
 @Component
-export default struct SearchItem{
+export default struct SearchItem {
   @State search: string = ''
-  build(){
+
+  build() {
     Row() {
       TextInput({ text: this.search, placeholder: 'Search' })
         .placeholderColor(Color.Grey)
