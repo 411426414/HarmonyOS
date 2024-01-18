@@ -1,0 +1,25 @@
+export class InfoListItem {
+  id: number = 0;
+  createtime: number = 0;
+  updatetime: number = 0;
+  title: string = '';
+  shortdesc: string = '';
+  publishtime: string = '';
+  coverimage: string = '';
+  audiofile: string = '';
+  videofile: string = '';
+  briefcontent: string = '';
+  price: string = '';
+  canpointdata: string = '';
+  status: string = '';
+  zxviplevel_ids: string = '';
+  zxviplevelname: string = '';
+  viewcount: number = 0;
+  sharecount: number = 0;
+  recommend: string = '';
+  hot: string = '';
+  canpointdata_text: string = '';
+  status_text: string = '';
+  recommend_text: string = '';
+  hot_text: string = '';
+}

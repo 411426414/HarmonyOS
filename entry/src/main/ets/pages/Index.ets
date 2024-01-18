@@ -1,11 +1,10 @@
-import CommonConstants from '../common/constants/CommonConstants';
-import StyleConstants from '../common/constants/StyleConstants';
+import CommonConstants from '../constants/CommonConstants';
+import StyleConstants from '../constants/StyleConstants';
 import HomePage from './HomePage';
-import ZixunPage from './ZixunPage/ZixunPage';
+import ZixunPage from './ZixunPage';
 import TramPage from './TramPage';
 import MinePage from './MinePage';
-import Logger from '../common/utils/Logger';
-// import MultipleDevicesUtils from '../common/utils/MultipleDevicesUtils';
+import AddressPage from './AddressPage';
 
 /**
  * 首页显示“首页”和“我的页面”。
@@ -28,6 +27,11 @@ struct Index {
       .tabBar(this.TabBuilder(CommonConstants.HOME_TITLE, CommonConstants.HOME_TAB_INDEX, $r('app.media.ic_home_selected'), $r('app.media.ic_home_normal')))
 
       TabContent() {
+        AddressPage()
+      }
+      .tabBar(this.TabBuilder(CommonConstants.ADDRESS_TITLE, CommonConstants.ADDRESS_TAB_INDEX, $r('app.media.ic_home_selected'), $r('app.media.ic_home_normal')))
+
+      TabContent() {
         ZixunPage()
       }
       .tabBar(this.TabBuilder(CommonConstants.ZIXUN_TITLE, CommonConstants.ZIXUN_TAB_INDEX, $r('app.media.ic_home_selected'), $r('app.media.ic_home_normal')))
@@ -45,7 +49,7 @@ struct Index {
     .barWidth(this.currentDeviceSize === CommonConstants.LG ? StyleConstants.BAR_WIDTH_LG : StyleConstants.FULL_PARENT)
     .barHeight(this.currentDeviceSize === CommonConstants.LG ? StyleConstants.BAR_HEIGHT_LG : StyleConstants.BAR_DEFAULT_HEIGHT)
     .vertical(this.currentDeviceSize === CommonConstants.LG)
-    .backgroundColor(Color.White)
+    .backgroundColor('#cedbd9d9')
     .barMode(BarMode.Fixed)
     .scrollable(false)
     .onChange((index: number) => this.currentIndex = index)
