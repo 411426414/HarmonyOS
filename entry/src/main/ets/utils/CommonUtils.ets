@@ -17,7 +17,7 @@ import router from '@ohos.router';
 // import libCheckNapi from 'libentry.so';
 import promptAction from '@ohos.promptAction';
 import CommonConstants from '../constants/CommonConstants';
-import Logger from './Logger';
+import Logger from './Logger1';
 
 /**
  * Common operation tools.
