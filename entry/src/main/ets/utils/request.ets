@@ -12,7 +12,6 @@ export function request(url: string, method: http.RequestMethod, data?: any) {
     url = BASE_URL + url
   }
   if (method == http.RequestMethod.GET) {
-    console.log('data', JSON.stringify(data))
     let getParams = '?';
     for (let key in data) {
       if (Object.prototype.hasOwnProperty.call(data, key)) {
@@ -29,7 +28,8 @@ export function request(url: string, method: http.RequestMethod, data?: any) {
   let responseResult = httpRequest.request(url, {
     method: method,
     header: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Token: AppStorage.Get('token')
     },
     // 携带额外参数：当使用POST请求时此字段用于传递内容
     extraData: JSON.stringify(data),
@@ -65,7 +65,7 @@ export function request(url: string, method: http.RequestMethod, data?: any) {
       }
       return response;
     })
-    .catch(() => {
+    .catch((err: http.HttpResponse) => {
       response.msg = '请求错误';
       response.code = 400;
       return response;
