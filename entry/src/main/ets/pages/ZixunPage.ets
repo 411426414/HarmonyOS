@@ -1,86 +1,40 @@
-import { expect, Level } from '@ohos/hypium';
-import CommonUtils from '../../common/utils/CommonUtils';
-import TextPro from '../components/TextPro'
-import Constant from '../../common/constants/Constant'
-import CommonConstants from '../../common/constants/CommonConstants';
-import StyleConstants from '../../common/constants/StyleConstants';
-import { CenterGridItem, InfoListItem } from '../../viewmodel/HomePage';
-import { ClassInfoList, ZixunInfoList } from '../../api/graduation';
-import promptAction from '@ohos.promptAction';
+import CommonConstants from '../constants/CommonConstants'
 
+import { ClassInfoListItem } from '../viewmodel/ClassInfoListItem'
+import promptAction from '@ohos.promptAction'
+import { InfoListItem } from '../viewmodel/InfoListItem'
+import { ClassInfoList, ZixunInfoList } from '../api/graduation'
+import StyleConstants from '../constants/StyleConstants'
+
+
+@Entry
 @Component
-export default struct HomePage {
-  @StorageProp('currentDeviceSize') currentDeviceSize: string = CommonConstants.SM;
-  @State sex: string[] = ['保密', '男', '女']
-  @State msg: string = ''
-  @State CenterGridData: Array<CenterGridItem> = []
+export default struct ZixunPage {
+  @State message: string = 'ZixunPage'
+  @State currIndex: number = 0
+  @State ClassInfoList: Array<ClassInfoListItem> = []
 
-  build() {
-    Scroll() {
-      Column() {
-        Text($r('app.string.zixun_page'))
-          .fontWeight(FontWeight.Medium)
-          .fontSize($r('app.float.common_text_size'))
-          .margin({
-            left: this.currentDeviceSize === CommonConstants.LG ? $r('app.float.common_margin_larger') : $r('app.float.common_margin'),
-            top: $r('app.float.common_margin')
-          })
-          .alignSelf(ItemAlign.Start)
-        // 搜索组件
-        SearchBar()
-        // Tabs组件
-        TabsBar({ centerGridData: $CenterGridData })
-        // Scroll() {}.scrollBar(BarState.Off)
-      }
-      .width(StyleConstants.FULL_PARENT)
-      .height(StyleConstants.FULL_PARENT)
-      .alignItems(HorizontalAlign.Start)
-      .backgroundColor($r('app.color.background'))
-    }
-    .scrollBar(BarState.Off)
-    .height('100%')
-  }
-
-  aboutToAppear() {
-    this.getClassInfoList()
-  }
-  // 获取信息分类列表
-  getClassInfoList() {
+  onPageShow() {
     ClassInfoList()
-      .then(res => {
-        if (res.code === 1) {
-          this.CenterGridData = res.data
-          promptAction.showToast({ message: res.msg })
-        } else {
-          promptAction.showToast({ message: res.msg })
-        }
+      .then((res) => {
+        console.log('res', JSON.stringify(res))
+        this.ClassInfoList = res.data
       })
   }
-}
 
-@Component
-struct SearchBar {
   build() {
-    Row() {
-      TextInput({ placeholder: "请输入搜索内容" })
-        .type(InputType.Normal)
-        .margin({ top: $r('app.float.common_margin') })
-        .borderRadius($r('app.float.common_border_radius'))
-        .margin({
-          top: $r('app.float.common_margin'),
-          left: $r('app.float.common_margin'),
-          right: $r('app.float.common_margin')
-        })
-        .onChange((value: string) => {
-        })
+    Column() {
+      // Tabs组件
+      TabsBar({ ClassInfoList: $ClassInfoList })
     }
+    .height('100%')
   }
 }
 
 @Component
 struct TabsBar {
   @State currentIndex: number = 0
-  @Link centerGridData: Array<CenterGridItem>
+  @Link ClassInfoList: Array<ClassInfoListItem>
   @State InfoList: Array<InfoListItem> = []
   @State type: number = 0
   @State search: string = ''
@@ -89,10 +43,12 @@ struct TabsBar {
     Stack() {
       Row() {
         Tabs({ barPosition: BarPosition.Start, index: this.currentIndex }) {
-          ForEach(this.centerGridData, (item, index) => {
+          ForEach(this.ClassInfoList, (item, index) => {
             TabContent() {
               // Text(item.name).fontSize($r('app.float.common_text_size')).fontWeight(FontWeight.Medium)
               ZiXunContentList({ infoList: $InfoList })
+                .height(100)
+
             }.tabBar(item.name)
           }, (item, index) => item.id)
         }
@@ -131,7 +87,6 @@ struct TabsBar {
     })
   }
 }
-
 
 @Component
 struct ZiXunContentList {
@@ -204,7 +159,7 @@ struct ZiXunContentList {
           }
           .width(StyleConstants.COMMON_WIDTH)
           .borderRadius(10)
-          .margin({ top: index == 0 ? 10 : 0, left: 10, right: 10, bottom: index == this.infoList.length })
+          .margin({ top: index == 0 ? 10 : 0, left: 10, right: 10, bottom: index == this.infoList.length ? 10 : 0 })
           .padding({ left: 15, top: 15, bottom: 15, right: 15 })
           .backgroundColor(Color.White)
         }
