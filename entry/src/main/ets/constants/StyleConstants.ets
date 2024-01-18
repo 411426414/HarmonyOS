@@ -30,6 +30,11 @@ export default class StyleConstants {
    * 组件的宽度或高度分布在父组件上
    */
   static readonly FULL_PARENT: string = '100%';
+  /**
+   * The width or height of the component is spread across the parent component.
+   * 组件的宽度或高度分布在父组件上
+   */
+  static readonly BIG_PARENT: string = '95%';
 
   /**
    * The width of button.
@@ -59,7 +64,7 @@ export default class StyleConstants {
    * Bar width lg of the parent 7.5.
    * 父组件的条宽度为7.5%
    */
-  static readonly BAR_WIDTH_LG: string = '7.5%' ;
+  static readonly BAR_WIDTH_LG: string = '7.5%';
 
   /**
    * Bar default height of the parent 7.2.
