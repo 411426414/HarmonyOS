@@ -4,6 +4,15 @@ import { request } from '../utils/request'
 
 
 /**
+ * 图片列表
+ * @param
+* @returns
+ */
+export function getPyImg(data?) {
+  return request(`/api/py/getPyImg`, http.RequestMethod.GET, data)
+}
+
+/**
  * 最近
  * @param
 * @returns
