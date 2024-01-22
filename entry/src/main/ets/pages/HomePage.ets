@@ -25,10 +25,6 @@ export default struct HomePage {
         console.log('onPageShow', JSON.stringify(err))
       })
   }
-  //
-  // onPageShow() {
-  //
-  // }
 
   // 父组件传递事件函数
   onItemClick(data: Commodity) {
@@ -45,19 +41,12 @@ export default struct HomePage {
               this.SwiperBox(this.swiperList)
 
               this.ClassInfo(4)
-              Button('跳转邮箱登陆')
+              Button('配置页面')
                 .margin({ top: 20 })
                 .width(StyleConstants.BUTTON_WIDTH)
                 .height(40)
                 .onClick(() => {
-                  router.pushUrl({ url: 'pages/EmailCodePage' })
-                })
-              Button('登陆')
-                .margin({ top: 20 })
-                .width(StyleConstants.BUTTON_WIDTH)
-                .height(40)
-                .onClick(() => {
-                  router.pushUrl({ url: 'pages/LoginPage' })
+                  router.pushUrl({ url: 'pages/Device/DeviceInfoPage' })
                 })
 
               // CommodityList({

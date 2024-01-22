@@ -4,7 +4,7 @@ import HomePage from './HomePage';
 import ZixunPage from './ZixunPage';
 import TramPage from './TramPage';
 import MinePage from './MinePage';
-import AddressPage from './AddressPage';
+import AddressPage from './Device/AddressPage';
 
 /**
  * 首页显示“首页”和“我的页面”。
