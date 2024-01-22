@@ -1,5 +1,3 @@
-import CommonConstants from '../constants/CommonConstants'
-
 import { ClassInfoListItem } from '../viewmodel/ClassInfoListItem'
 import promptAction from '@ohos.promptAction'
 import { InfoListItem } from '../viewmodel/InfoListItem'
@@ -12,9 +10,18 @@ import StyleConstants from '../constants/StyleConstants'
 export default struct ZixunPage {
   @State message: string = 'ZixunPage'
   @State currIndex: number = 0
-  @State ClassInfoList: Array<ClassInfoListItem> = []
+  @State ClassInfoList: Array<ClassInfoListItem> = [{
+    id: 0,
+    name: '全部',
+    key: 'all',
+    status: '1',
+    wigth: 0,
+    createtime: 0,
+    updatetime: 0,
+    status_text: '',
+  }]
 
-  onPageShow() {
+  aboutToAppear() {
     ClassInfoList()
       .then((res) => {
         console.log('res', JSON.stringify(res))
@@ -26,6 +33,7 @@ export default struct ZixunPage {
     Column() {
       // Tabs组件
       TabsBar({ ClassInfoList: $ClassInfoList })
+        .height('100%')
     }
     .height('100%')
   }
@@ -35,7 +43,31 @@ export default struct ZixunPage {
 struct TabsBar {
   @State currentIndex: number = 0
   @Link ClassInfoList: Array<ClassInfoListItem>
-  @State InfoList: Array<InfoListItem> = []
+  @State InfoList: Array<InfoListItem> = [{
+    "id": 25,
+    "createtime": 1680933144,
+    "updatetime": 1698991770,
+    "title": "第四级菜单",
+    "shortdesc": "图片",
+    "publishtime": "2023-04-08 13:52:17",
+    "coverimage": "/uploads/20230421/50765e68ac91003eae4833fd00f1486c.jpg",
+    "audiofile": "",
+    "videofile": "",
+    "briefcontent": "",
+    "price": "0.00",
+    "canpointdata": "1",
+    "status": "1",
+    "zxviplevel_ids": "1,3,4",
+    "zxviplevelname": "普通会员,精英会员,黄金会员",
+    "viewcount": 61,
+    "sharecount": 2,
+    "recommend": "0",
+    "hot": "0",
+    "canpointdata_text": "允许",
+    "status_text": "显示",
+    "recommend_text": "否",
+    "hot_text": "否"
+  }]
   @State type: number = 0
   @State search: string = ''
 
@@ -47,7 +79,8 @@ struct TabsBar {
             TabContent() {
               // Text(item.name).fontSize($r('app.float.common_text_size')).fontWeight(FontWeight.Medium)
               ZiXunContentList({ infoList: $InfoList })
-                .height(100)
+                .height('100%')
+                .backgroundColor('#ffd2cfcf')
 
             }.tabBar(item.name)
           }, (item, index) => item.id)
@@ -63,7 +96,7 @@ struct TabsBar {
         })
       }
       .justifyContent(FlexAlign.Start)
-    }.height('88%')
+    }.height('100%')
   }
 
   aboutToAppear() {
@@ -91,31 +124,7 @@ struct TabsBar {
 @Component
 struct ZiXunContentList {
   @Link infoList: Array<InfoListItem>
-  @State obj: InfoListItem = {
-    "id": 25,
-    "createtime": 1680933144,
-    "updatetime": 1698991770,
-    "title": "第四级菜单",
-    "shortdesc": "图片",
-    "publishtime": "2023-04-08 13:52:17",
-    "coverimage": "/uploads/20230421/50765e68ac91003eae4833fd00f1486c.jpg",
-    "audiofile": "",
-    "videofile": "",
-    "briefcontent": "",
-    "price": "0.00",
-    "canpointdata": "1",
-    "status": "1",
-    "zxviplevel_ids": "1,3,4",
-    "zxviplevelname": "普通会员,精英会员,黄金会员",
-    "viewcount": 61,
-    "sharecount": 2,
-    "recommend": "0",
-    "hot": "0",
-    "canpointdata_text": "允许",
-    "status_text": "显示",
-    "recommend_text": "否",
-    "hot_text": "否"
-  }
+  @State obj: InfoListItem = {}
 
   build() {
     List({ space: 8 }) {
@@ -159,12 +168,11 @@ struct ZiXunContentList {
           }
           .width(StyleConstants.COMMON_WIDTH)
           .borderRadius(10)
-          .margin({ top: index == 0 ? 10 : 0, left: 10, right: 10, bottom: index == this.infoList.length ? 10 : 0 })
+          .margin({ top: index == 0 ? 10 : 0, left: 10, right: 10, bottom: index == this.infoList.length - 1 ? 10 : 0 })
           .padding({ left: 15, top: 15, bottom: 15, right: 15 })
           .backgroundColor(Color.White)
         }
       })
     }
-    .backgroundColor('#ffd2cfcf')
   }
 }
