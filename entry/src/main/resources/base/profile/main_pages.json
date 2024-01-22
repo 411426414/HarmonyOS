@@ -4,9 +4,12 @@
     "pages/HomePage",
     "pages/ZixunPage",
     "pages/TramPage",
-    "pages/AddressPage",
     "pages/MinePage",
     "pages/LoginPage",
-    "pages/EmailCodePage"
+    "pages/EmailCodePage",
+    "pages/Device/AddressPage",
+    "pages/Device/DeviceInfoPage",
+    "pages/Device/BluetoothPage",
+    "pages/Device/CallPage"
   ]
 }
