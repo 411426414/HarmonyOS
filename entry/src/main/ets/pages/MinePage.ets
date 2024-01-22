@@ -1,4 +1,6 @@
 import router from '@ohos.router';
+import deviceInfo from '@ohos.deviceInfo'
+import batteryInfo from '@ohos.batteryInfo';
 import { userIndex } from '../api/user';
 import CommonConstants from '../constants/CommonConstants';
 import StyleConstants from '../constants/StyleConstants';
@@ -41,16 +43,32 @@ export default struct MinePage {
       MineTitleView({ userInfo: $UserInfo })
       Text('token:' + this.token)
 
-      Button('登录')
-        .margin({ top: 220 })
-        .onClick(() => {
-
-        })
       Button('退出登录')
-        .margin({ top: 220 })
         .onClick(() => {
           this.logout();
           Logger.info(CommonConstants.TAG_MINE_PAGE, 'Logout');
+        })
+
+      Button('跳转邮箱登陆')
+        .margin({ top: 20 })
+        .width(StyleConstants.BUTTON_WIDTH)
+        .height(40)
+        .onClick(() => {
+          router.pushUrl({ url: 'pages/EmailCodePage' })
+        })
+      Button('登陆')
+        .margin({ top: 20 })
+        .width(StyleConstants.BUTTON_WIDTH)
+        .height(40)
+        .onClick(() => {
+          router.pushUrl({ url: 'pages/LoginPage' })
+        })
+      Button('设备信息')
+        .margin({ top: 20 })
+        .width(StyleConstants.BUTTON_WIDTH)
+        .height(40)
+        .onClick(() => {
+          router.pushUrl({ url: 'pages/DevelopPage' })
         })
     }
     .width(StyleConstants.BIG_PARENT)
