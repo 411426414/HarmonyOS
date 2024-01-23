@@ -5,11 +5,12 @@
     "pages/ZixunPage",
     "pages/TramPage",
     "pages/MinePage",
-    "pages/LoginPage",
+    "pages/RegisterPage",
     "pages/EmailCodePage",
     "pages/Device/AddressPage",
     "pages/Device/DeviceInfoPage",
     "pages/Device/BluetoothPage",
-    "pages/Device/CallPage"
+    "pages/Device/CallPage",
+    "pages/LoginPage"
   ]
 }
