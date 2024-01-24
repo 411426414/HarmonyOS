@@ -1,5 +1,18 @@
 import TitleComponent from '../components/TitleComponent';
 import Input from '../components/Input';
+import {
+  AGConnectAuth,
+  AGConnectAuthCredentialProvider,
+  EmailAuthProvider,
+  EmailUserBuilder,
+  PhoneAuthProvider,
+  PhoneUserBuilder,
+  VerifyCodeAction,
+  VerifyCodeSettingBuilder
+} from '@hw-agconnect/auth-ohos'
+import agconnect from '@hw-agconnect/api-ohos';
+import router from '@ohos.router';
+import promptAction from '@ohos.promptAction';
 
 @Entry
 @Component
@@ -8,10 +21,32 @@ struct LoginPage {
   @State isRegister: boolean = false
   @State countDown: number = 60
   timer: number
+  @State email: string = '411426414@qq.com'
+  @State password: string = '123456'
+  @State verifyCode: string = ''
+  chang = (val: string) => {
+  }
   // 发送验证码
   sendCode() {
     this.startSendCode()
+
+    // 发送验证码
+    const verifyCodeSettings = new VerifyCodeSettingBuilder()
+      .setAction(VerifyCodeAction.REGISTER_LOGIN) // 验证码类型
+      .setLang('zh_CN')
+      .setSendInterval(60)
+      .build()
+    console.log('this.email', this.email)
+    // 接收两个参数，第一个是发送邮件的url地址，第二个是当前的配置
+    agconnect.auth().requestEmailVerifyCode(this.email, verifyCodeSettings)
+      .then((VerifyCodeResult) => {
+        console.log(JSON.stringify(VerifyCodeResult), '成功')
+      })
+      .catch((err) => {
+        console.log(JSON.stringify(err), '失败')
+      })
   }
+
   // 开始倒计时
   startSendCode() {
     this.timer = setInterval(() => {
@@ -21,6 +56,39 @@ struct LoginPage {
         clearInterval(this.timer)
       }
     }, 1000)
+  }
+
+  register() {
+    // 通过code + 密码 + 邮箱 登录
+
+    const emailUser = new EmailUserBuilder()
+      .setEmail(this.email)
+      .setPassword(this.password)
+      .setVerifyCode(this.verifyCode)
+      .build()
+
+    // 创建用户华为认证层面
+    agconnect.auth().createEmailUser(emailUser)
+      .then((result) => {
+        promptAction.showToast({ message: '注册成功！' })
+        clearInterval(this.timer)
+        router.replaceUrl({
+          url: 'pages/MinePage',
+        })
+      })
+      .catch(err => {
+        console.log(JSON.stringify(err), '失败')
+        promptAction.showToast({ message: '请重新输入密码！' })
+        clearInterval(this.timer)
+      })
+
+
+  }
+
+  doLogin() {
+    router.replaceUrl({
+      url: 'pages/Index`',
+    })
   }
 
   build() {
@@ -41,6 +109,10 @@ struct LoginPage {
           title: '电子邮箱',
           icon: $r('app.media.avatar'),
           placeholder: '请输入您的电子邮箱',
+          defaultValue: $email,
+          change: (val) => {
+            this.email = val
+          }
         })
 
         Input({
@@ -48,9 +120,13 @@ struct LoginPage {
           icon: $r('app.media.ic_about'),
           placeholder: '请输入您的密码',
           inputType: InputType.Password,
+          defaultValue: $password,
+          change: (val) => {
+            this.password = val
+          }
         }).margin({ top: 20 })
 
-        if (!this.isRegister) {
+        if (this.isRegister) {
           Column() {
             Text('验证码')
               .width('100%')
@@ -67,6 +143,9 @@ struct LoginPage {
                 .margin({ right: 10 })
                   // .backgroundColor('#FBFBFD')
                 .backgroundColor('#EEE')
+                .onChange((val: string) => {
+                  this.verifyCode = val
+                })
 
               Button(this.countDown == 60 ? '获取验证码' : `${this.countDown}`)
                 .fontSize(14)
@@ -82,7 +161,7 @@ struct LoginPage {
         }
 
         Flex({ alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
-          Text(this.isRegister ? '登录' : '注册')
+          Text(this.isRegister ? '注册' : '登录')
             .fontColor(Color.White)
             .fontWeight(FontWeight.Bold)
             .fontSize(17)
@@ -92,9 +171,12 @@ struct LoginPage {
         .backgroundColor('#38BFDA')
         .borderRadius(50)
         .margin({ top: 100 })
+        .onClick(() => {
+          this.isRegister ? this.register() : this.doLogin()
+        })
 
         Flex({ alignItems: ItemAlign.Center, justifyContent: FlexAlign.Center }) {
-          Text(this.isRegister ? '去注册' : '去登录')
+          Text(this.isRegister ? '去登录' : '去注册')
             .fontColor(Color.Black)
             .fontWeight(FontWeight.Bold)
             .fontSize(17)

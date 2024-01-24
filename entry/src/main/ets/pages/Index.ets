@@ -5,6 +5,7 @@ import ZixunPage from './ZixunPage';
 import TramPage from './TramPage';
 import MinePage from './MinePage';
 import AddressPage from './Device/AddressPage';
+import HuaweiPage from './HuaweiPage';
 
 /**
  * 首页显示“首页”和“我的页面”。
@@ -27,7 +28,8 @@ struct Index {
       .tabBar(this.TabBuilder(CommonConstants.HOME_TITLE, CommonConstants.HOME_TAB_INDEX, $r('app.media.ic_home_selected'), $r('app.media.ic_home_normal')))
 
       TabContent() {
-        AddressPage()
+        // AddressPage()
+        HuaweiPage()
       }
       .tabBar(this.TabBuilder(CommonConstants.ADDRESS_TITLE, CommonConstants.ADDRESS_TAB_INDEX, $r('app.media.ic_home_selected'), $r('app.media.ic_home_normal')))
 
