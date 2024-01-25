@@ -172,7 +172,21 @@ struct ZiXunContentList {
           .padding({ left: 15, top: 15, bottom: 15, right: 15 })
           .backgroundColor(Color.White)
         }
+        .swipeAction({ end: this.DeleteButton(item, index) })
       })
     }
+  }
+
+  @Builder DeleteButton(item: InfoListItem, index: number) {
+   Button(){
+     Image($r('app.media.img'))
+       .width(20)
+       .fillColor(Color.White)
+   }
+    .width(40)
+    .height(40)
+    .type(ButtonType.Circle)
+    .backgroundColor(Color.Red)
+    .margin(5)
   }
 }
