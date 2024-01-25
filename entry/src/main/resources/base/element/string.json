@@ -247,6 +247,14 @@
     {
       "name": "check_privacy",
       "value": "Check privacy agreement"
+    },
+    {
+      "name": "EntryFormAbility_desc",
+      "value": "form_description"
+    },
+    {
+      "name": "EntryFormAbility_label",
+      "value": "form_label"
     }
   ]
 }

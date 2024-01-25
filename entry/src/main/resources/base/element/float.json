@@ -251,6 +251,10 @@
     {
       "name": "common_margin_larger",
       "value": "24vp"
+    },
+    {
+      "name": "font_size",
+      "value": "16fp"
     }
   ]
 }
