@@ -1,7 +1,6 @@
 import { BannerList, ClassInfoList, ZixunInfoList } from '../api/graduation'
 import { BannerItem } from '../viewmodel/BannerModel'
 import StyleConstants from '../constants/StyleConstants'
-import CommodityList from '../view/CommodityList'
 import { Commodity } from '../viewmodel/CommondityModel'
 import { commodityData, commodityData1 } from '../viewmodel/ShopData'
 import router from '@ohos.router'
@@ -10,9 +9,7 @@ import router from '@ohos.router'
 @Component
 export default struct HomePage {
   @State message: string = 'HomePage'
-  @State swiperList: Array<BannerItem> = [{
-    "coverimage": "/uploads/20230318/5060835d87b8a2383f1eb7e1ec8b2743.png",
-  }]
+  @State swiperList: Array<BannerItem> = [{ "coverimage": "/uploads/20230318/5060835d87b8a2383f1eb7e1ec8b2743.png", }]
   @State commodityList: Commodity[] = []
 
   aboutToAppear() {
@@ -47,6 +44,14 @@ export default struct HomePage {
                 .height(40)
                 .onClick(() => {
                   router.pushUrl({ url: 'pages/Device/DeviceInfoPage' })
+                })
+
+              Button('数据库')
+                .margin({ top: 20 })
+                .width(StyleConstants.BUTTON_WIDTH)
+                .height(40)
+                .onClick(() => {
+                  router.pushUrl({ url: 'pages/TaskManage/TaskManagePage' })
                 })
 
               // CommodityList({
@@ -86,15 +91,21 @@ export default struct HomePage {
       ForEach([1, 2, 3, 4, 5, 6, 7, 8], (item: number, index: number) => {
         ListItem() {
           Column() {
-            Image($r('app.media.img')).width('75%').borderRadius(50).margin({ bottom: 5 })
+            Image($r('app.media.img')).width(30).borderRadius(15).margin({ bottom: 5 })
             Text('N' + item)
           }
-          .alignItems(HorizontalAlign.Center)
-          .justifyContent(FlexAlign.Center)
-          .padding({ top: index < column ? 5 : 0, bottom: 5, left: 5, right: 5 })
-          .width(StyleConstants.FULL_PARENT)
+          // .alignItems(HorizontalAlign.Center)
+          // .justifyContent(FlexAlign.Center)
+          // .padding({ top: index < column ? 5 : 0, bottom: 5, left: 5, right: 5 })
+          // .width(StyleConstants.FULL_PARENT)
+          .width(50)
         }
       })
-    }.lanes(column)
+    }
+    .listDirection(Axis.Horizontal)
+    .edgeEffect(EdgeEffect.None)
+    .margin({ left: '6.7%' })
+    .width('93.3%')
+    .height('14.4%')
   }
 }
