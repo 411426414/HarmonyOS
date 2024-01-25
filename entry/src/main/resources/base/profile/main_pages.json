@@ -12,6 +12,7 @@
     "pages/Device/BluetoothPage",
     "pages/Device/CallPage",
     "pages/LoginPage",
-    "pages/HuaweiPage"
+    "pages/HuaweiPage",
+    "pages/TaskManage/TaskManagePage"
   ]
 }
