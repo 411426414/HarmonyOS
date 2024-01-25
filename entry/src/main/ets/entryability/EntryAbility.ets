@@ -6,11 +6,16 @@ import '@hw-agconnect/core-ohos'
 import '@hw-agconnect/auth-ohos'
 import agconnect from '@hw-agconnect/api-ohos';
 
+import TaskModel from '../pages/TaskManage/model/TaskModel'
+
 export default class EntryAbility extends UIAbility {
   onCreate(want, launchParam) {
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
     // 如果使用agconnect，需要在此处初始化agconnect
     agconnect.instance().init(this.context.getApplicationContext())
+
+    // 初始化任务表
+    TaskModel.initTaskDB(this.context)
   }
 
   onDestroy() {
